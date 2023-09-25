@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import GuiApp from './GuiApp.vue';
-import GameInstructions from './components/GameInstructions.vue';
+import App from './App.vue';
+import GameInstructions from './ui/GameInstructions.vue';
 
 describe('GuiApp.vue', () => {
     describe('When no game started', () => {
@@ -13,7 +13,7 @@ describe('GuiApp.vue', () => {
 });
 
 function setup({ gameStarted = false }) {
-    const wrapper = shallowMount(GuiApp);
+    const wrapper = shallowMount(App);
 
     return {
         wrapper,

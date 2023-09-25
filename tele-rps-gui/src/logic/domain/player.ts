@@ -1,0 +1,3 @@
+type Player = {
+    id: string;
+};
