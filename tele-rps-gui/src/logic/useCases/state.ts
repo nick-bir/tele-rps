@@ -1,3 +1,5 @@
+import { State, createState } from '../domain/state';
+
 let state: State;
 
 function useState() {
@@ -6,3 +8,5 @@ function useState() {
     }
     return { state };
 }
+
+export { useState };

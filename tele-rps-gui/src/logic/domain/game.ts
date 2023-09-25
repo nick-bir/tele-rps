@@ -7,3 +7,6 @@ function createGame(): Game {
         status: 'new',
     };
 }
+
+export { createGame };
+export type { Game };
