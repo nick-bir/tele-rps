@@ -1,18 +1,16 @@
 <template>
     <div id="app">
         <GameInstructions v-if="!isGameStarted" />
+        <Game v-else />
     </div>
 </template>
 
 <script setup lang="ts">
-    import { computed } from 'vue';
-    import { useState } from './logic/useCases/state';
-    import GameInstructions from './ui/GameInstructions.vue';
-    console.log('--- state', useState());
+    import GameInstructions from './ui/Instructions.vue';
+    import Game from './ui/Game.vue';
+    import { useApi } from './logic/api';
 
-    const { state } = useState();
-
-    let isGameStarted = computed(() => state.game.status !== 'new');
+    const { isGameStarted } = useApi();
 </script>
 
 <style>
