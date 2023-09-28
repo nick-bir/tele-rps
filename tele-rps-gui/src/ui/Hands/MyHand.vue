@@ -1,5 +1,5 @@
 <template>
-    <div>my hand</div>
+    <div>[my hand: {{ choise }}]</div>
 </template>
 
 <script setup lang="ts">

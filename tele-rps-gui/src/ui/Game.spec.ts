@@ -31,9 +31,7 @@ describe('Game screen (Game.vue)', () => {
                 expect(isRpsSelectorVisible()).toBe(false);
             });
             it('- show players hands', async () => {
-                const { selectWeapon, areHandsVisible } = setup({
-                    isRoundStarted: true,
-                });
+                const { selectWeapon, areHandsVisible } = setup({});
                 await selectWeapon();
                 expect(areHandsVisible()).toBe(true);
             });

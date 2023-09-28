@@ -1,6 +1,6 @@
 <template>
     <div>
-        Game api
+        Game UI
         <Score />
         <RpsSelector v-if="!isMyChoiseMade" @choise="makeMyChoise" />
         <Hands v-if="isMyChoiseMade || isRoundFinished" />

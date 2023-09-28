@@ -23,7 +23,7 @@ function useApi() {
     );
 
     const startNewGame = () => {
-        gameStatus.value = 'new';
+        gameStatus.value = 'started';
         myChoise.value = 'choosing';
     };
 
