@@ -1,56 +1,60 @@
 import { computed, ref } from 'vue';
 
 type GameStatus = 'new' | 'started' | 'finished';
-type RoundStatus = 'new' | 'choise_made' | 'finished';
 type Figures = 'rock' | 'paper' | 'scissors' | 'choosing';
 
 const gameStatus = ref<GameStatus>('new');
-const roundStatus = ref<RoundStatus>('new');
-const userChoise = ref<Figures>('rock');
+const myChoise = ref<Figures>('choosing');
+const opponentChoise = ref<Figures>('choosing');
 
 function useApi() {
     const isNewGame = computed(() => gameStatus.value === 'new');
     const isGameStarted = computed(() => gameStatus.value === 'started');
     const isGameFinished = computed(() => gameStatus.value === 'finished');
-    const isNewRound = computed(() => roundStatus.value === 'new');
-    const isChoiseMade = computed(() => userChoise.value !== 'choosing');
-    const isRoundFinished = computed(() => roundStatus.value === 'finished');
+    const isMyChoiseMade = computed(() => myChoise.value !== 'choosing');
+    const isOpponentChoiseMade = computed(
+        () => opponentChoise.value !== 'choosing'
+    );
+    const isBothChoiseMade = computed(
+        () => isMyChoiseMade.value && isOpponentChoiseMade.value
+    );
+    const isRoundFinished = computed(
+        () => isGameStarted.value && isBothChoiseMade.value
+    );
 
     const startNewGame = () => {
         gameStatus.value = 'new';
-        roundStatus.value = 'new';
-        userChoise.value = 'choosing';
+        myChoise.value = 'choosing';
     };
 
-    const startNewRound = () => (roundStatus.value = 'new');
-    const finishRound = () => (roundStatus.value = 'finished');
     const setGameStatus = (status: GameStatus) => (gameStatus.value = status);
-    const setRoundStatus = (status: RoundStatus) =>
-        (roundStatus.value = status);
 
-    const makeChoise = (figure: Figures) => {
-        console.log('--- makeChoise', figure);
-
-        userChoise.value = figure;
-        roundStatus.value = 'choise_made';
+    const makeMyChoise = (figure: Figures) => {
+        myChoise.value = figure;
+    };
+    const makeOpponentChoise = (figure: Figures) => {
+        opponentChoise.value = figure;
     };
 
     return {
         startNewGame,
         setGameStatus,
-        setRoundStatus,
+
+        myChoise,
+        opponentChoise,
 
         isNewGame,
         isGameStarted,
-        isNewRound,
-        isChoiseMade,
+        isMyChoiseMade,
+        isOpponentChoiseMade,
+        isBothChoiseMade,
         isRoundFinished,
         isGameFinished,
-        startNewRound,
-        finishRound,
 
-        makeChoise,
+        makeMyChoise,
+        makeOpponentChoise,
     };
 }
 
 export { useApi };
+export type { Figures };

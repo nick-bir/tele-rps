@@ -2,20 +2,16 @@
     <div>
         Game api
         <Score />
-        <RpsSelector v-if="isNewRound" @choise="makeChoise" />
-        <template v-if="isChoiseMade || isRoundFinished">
-            <UserHand />
-            <OpponentHand />
-        </template>
+        <RpsSelector v-if="!isMyChoiseMade" @choise="makeMyChoise" />
+        <Hands v-if="isMyChoiseMade || isRoundFinished" />
     </div>
 </template>
 
 <script setup lang="ts">
     import Score from './Score.vue';
     import RpsSelector from './RpsSelector.vue';
-    import UserHand from './UserHand.vue';
-    import OpponentHand from './OpponentHand.vue';
+    import Hands from './Hands/Hands.vue';
     import { useApi } from '../logic/api';
 
-    const { isNewRound, isRoundFinished, makeChoise, isChoiseMade } = useApi();
+    const { isRoundFinished, makeMyChoise, isMyChoiseMade } = useApi();
 </script>

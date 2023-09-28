@@ -7,7 +7,7 @@ import GameResults from './ui/GameResults.vue';
 
 import { useApi } from './logic/api';
 
-describe('GuiApp.vue', () => {
+describe('Main screen (App.vue)', () => {
     describe('when no game started', () => {
         it('- display instructions', () => {
             const { isInstructionsVisible } = setup({ isGameStarted: false });

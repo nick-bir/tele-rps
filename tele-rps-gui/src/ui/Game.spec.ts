@@ -2,82 +2,77 @@ import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import Game from './Game.vue';
 import RpsSelector from './RpsSelector.vue';
-import PlayerHand from './UserHand.vue';
-import OpponentHand from './OpponentHand.vue';
+import Hands from './Hands/Hands.vue';
 import Score from './Score.vue';
-import { useApi } from '../logic/api';
+import { Figures, useApi } from '../logic/api';
 
-describe('Game.vue', () => {
+describe('Game screen (Game.vue)', () => {
     describe('always', () => {
         it('- show score', async () => {
             const { isScoreVisible } = setup();
             expect(isScoreVisible()).toBe(true);
         });
     });
-    describe('if new round started', () => {
+    describe('when new round started', () => {
+        it('- hide players hands', () => {
+            const { areHandsVisible } = setup();
+            expect(areHandsVisible()).toBe(false);
+        });
         it('- show rock/paper/scissors selector', () => {
             const { isRpsSelectorVisible } = setup();
             expect(isRpsSelectorVisible()).toBe(true);
         });
-        it('- hide hands', () => {
-            const { isUserHandVisible, isOpponentHandVisible } = setup();
-            expect(isUserHandVisible()).toBe(false);
-            expect(isOpponentHandVisible()).toBe(false);
-        });
 
         describe('when user made choise', () => {
-            describe('show hands:', () => {
-                it('- user hand', async () => {
-                    const { makeChoise, isUserHandVisible } = setup({
-                        isRoundStarted: true,
-                    });
-                    await makeChoise();
-                    expect(isUserHandVisible()).toBe(true);
+            it('- hide rock/paper/scissors selector', () => {
+                const { isRpsSelectorVisible } = setup({
+                    myChoise: 'rock',
                 });
+                expect(isRpsSelectorVisible()).toBe(false);
+            });
+            it('- show players hands', async () => {
+                const { selectWeapon, areHandsVisible } = setup({
+                    isRoundStarted: true,
+                });
+                await selectWeapon();
+                expect(areHandsVisible()).toBe(true);
             });
         });
     });
-    describe('if round finished', () => {
-        it('- show user hand', () => {
-            const { isUserHandVisible } = setup({
-                isRoundFinished: true,
+    describe('when round finished', () => {
+        it('- show players hands', () => {
+            const { areHandsVisible } = setup({
+                myChoise: 'rock',
+                opponentChoise: 'paper',
             });
-            expect(isUserHandVisible()).toBe(true);
-        });
-
-        it('- show opponent hand', async () => {
-            const { isOpponentHandVisible } = setup({
-                isRoundFinished: true,
-            });
-            expect(isOpponentHandVisible()).toBe(true);
+            expect(areHandsVisible()).toBe(true);
         });
     });
 });
 
-function setup({ isRoundStarted = false, isRoundFinished = false } = {}) {
-    const { startNewGame } = useApi();
+type SetupProps = {
+    myChoise?: Figures;
+    opponentChoise?: Figures;
+};
+
+function setup({
+    myChoise = 'choosing',
+    opponentChoise = 'choosing',
+}: SetupProps = {}) {
+    const { startNewGame, makeMyChoise, makeOpponentChoise } = useApi();
+
     startNewGame();
-
-    if (isRoundStarted) {
-        const { startNewRound } = useApi();
-        startNewRound();
-    }
-
-    if (isRoundFinished) {
-        const { finishRound } = useApi();
-        finishRound();
-    }
+    makeMyChoise(myChoise);
+    makeOpponentChoise(opponentChoise);
 
     const wrapper = shallowMount(Game);
 
     const isScoreVisible = () => wrapper.findComponent(Score).exists();
     const isRpsSelectorVisible = () =>
         wrapper.findComponent(RpsSelector).exists();
-    const isUserHandVisible = () => wrapper.findComponent(PlayerHand).exists();
-    const isOpponentHandVisible = () =>
-        wrapper.findComponent(OpponentHand).exists();
+    const areHandsVisible = () => wrapper.findComponent(Hands).exists();
 
-    const makeChoise = () => {
+    const selectWeapon = () => {
         wrapper.findComponent(RpsSelector).vm.$emit('choise', 'rock');
     };
 
@@ -85,9 +80,8 @@ function setup({ isRoundStarted = false, isRoundFinished = false } = {}) {
         wrapper,
         isScoreVisible,
         isRpsSelectorVisible,
-        isUserHandVisible,
-        isOpponentHandVisible,
+        areHandsVisible,
 
-        makeChoise,
+        selectWeapon,
     };
 }
