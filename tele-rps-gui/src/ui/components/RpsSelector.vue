@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useApi } from '../logic/api';
+    import { useApi } from '../../logic/api';
 
     const { makeMyChoise } = useApi();
 </script>

@@ -7,3 +7,4 @@
 
     defineProps<{ choise: Figures }>();
 </script>
+../../../logic/api

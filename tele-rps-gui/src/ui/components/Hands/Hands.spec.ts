@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import Hands from './Hands.vue';
 import OpponentHand from './OpponentHand.vue';
-import { Figures, useApi } from '../../logic/api';
+import { Figures, useApi } from '../../../logic/api';
 import MyHand from './MyHand.vue';
 
 describe('Players hands (Hands.vue)', () => {

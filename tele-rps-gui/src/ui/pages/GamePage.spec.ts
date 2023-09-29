@@ -1,10 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import Game from './Game.vue';
-import RpsSelector from './RpsSelector.vue';
-import Hands from './Hands/Hands.vue';
-import Score from './Score.vue';
-import { Figures, useApi } from '../logic/api';
+import Game from './GamePage.vue';
+import RpsSelector from '../components/RpsSelector.vue';
+import Hands from '../components/Hands/Hands.vue';
+import Score from '../components/Score.vue';
+import { Figures, useApi } from '../../logic/api';
 
 describe('Game screen (Game.vue)', () => {
     describe('always', () => {
@@ -23,7 +23,7 @@ describe('Game screen (Game.vue)', () => {
             expect(isRpsSelectorVisible()).toBe(true);
         });
 
-        describe('when user made choise', () => {
+        describe('when I made choise', () => {
             it('- hide rock/paper/scissors selector', () => {
                 const { isRpsSelectorVisible } = setup({
                     myChoise: 'rock',
