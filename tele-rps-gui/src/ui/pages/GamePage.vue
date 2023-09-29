@@ -1,6 +1,6 @@
 <template>
     <div class="game">
-        <Header>Game started</Header>
+        <Header>🎸📃✂️ {{ opponentName }}</Header>
         <Score />
         <RpsSelector v-if="!isMyChoiseMade" @choise="makeMyChoise" />
         <Hands v-if="isMyChoiseMade || isRoundFinished" />
@@ -14,7 +14,7 @@
     import Hands from '../components/Hands/Hands.vue';
     import { useApi } from '../../logic/api';
 
-    const { isRoundFinished, makeMyChoise, isMyChoiseMade, isGameStarted } =
+    const { isRoundFinished, makeMyChoise, isMyChoiseMade, opponentName } =
         useApi();
 </script>
 

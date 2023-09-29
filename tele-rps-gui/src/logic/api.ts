@@ -4,6 +4,7 @@ type GameStatus = 'new' | 'started' | 'finished';
 type Figures = 'rock' | 'paper' | 'scissors' | 'choosing';
 
 const gameStatus = ref<GameStatus>('new');
+const opponentName = ref<string>('@ppo_nent');
 const myChoise = ref<Figures>('choosing');
 const opponentChoise = ref<Figures>('choosing');
 
@@ -40,6 +41,7 @@ function useApi() {
         startNewGame,
         setGameStatus,
 
+        opponentName,
         myChoise,
         opponentChoise,
 

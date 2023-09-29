@@ -1,10 +1,12 @@
 <template>
-    <div>[opponent hand: {{ choise }}]</div>
+    <Hand :choise="opponentChoise" name="Opponent hand" />
 </template>
 
 <script setup lang="ts">
-    import { Figures } from '../../logic/api';
+    import { Figures, useApi } from '../../../logic/api';
+    import Hand from './Hand.vue';
 
     defineProps<{ choise: Figures }>();
+
+    const { opponentChoise } = useApi();
 </script>
-../../../logic/api

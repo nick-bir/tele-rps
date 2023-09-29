@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <MyHand :choise="myChoise" />
-        <OpponentHand :choise="opponentChoise" />
+    <div class="hands">
+        <MyHand class="hand" :choise="myChoise" />
+        <OpponentHand class="hand" :choise="opponentChoise" />
     </div>
 </template>
 
@@ -12,4 +12,15 @@
 
     const { myChoise, opponentChoise } = useApi();
 </script>
-../../../logic/api
+
+<style>
+    .hands {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .hand {
+        align-self: stretch;
+    }
+</style>
