@@ -1,6 +1,7 @@
 package com.polygon
 
-import com.polygon.plugins.*
+import com.polygon.plugins.configureRouting
+import com.polygon.plugins.configureSockets
 import com.polygon.tg.polling.PollingTelegramBot
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
