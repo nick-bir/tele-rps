@@ -7,13 +7,13 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
   </head>
   <body>
-    <a id="send_data">Send data</a>
+    <a href="#" id="send_data">Send data</a><br>
     <script type="text/javascript">
       document.getElementById('send_data').addEventListener("click", () => {
         window.Telegram.WebApp.sendData("Oh hi Mark");
       });
     </script>
-    <a id="send_http">Send http</a>
+    <a href="#" id="send_http">Send http</a><br>
     <span id="app_log"></span>
     <script type="text/javascript">
       document.getElementById('send_http').addEventListener("click", () => {
