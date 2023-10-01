@@ -7,11 +7,33 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
   </head>
   <body>
-    <a href="#" id="click_me">Click Me</a>
+    <a id="send_data">Send data</a>
     <script type="text/javascript">
-      document.getElementById('click_me').addEventListener("click", () => {
-        document.getElementById('click_me').innerText = "why?"
-        window.Telegram.WebApp.sendData("Oh hi Mark")
+      document.getElementById('send_data').addEventListener("click", () => {
+        window.Telegram.WebApp.sendData("Oh hi Mark");
+      });
+    </script>
+    <a id="send_http">Send http</a>
+    <span id="app_log"></span>
+    <script type="text/javascript">
+      document.getElementById('send_http').addEventListener("click", () => {
+        const authData = window.Telegram.WebApp.initData || '';
+        document.getElementById('send_http').innerText = authData.substring(0, 5);
+        fetch('localhost:8080/auth', {
+          method: 'POST',
+          body: JSON.stringify({
+            auth: authData,
+            payload: {}
+          }),
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(function(response) {
+          document.getElementById('app_log').innerText += JSON.stringify(response) + '\n'
+        }).catch(function(error) {
+          document.getElementById('app_log').innerText += JSON.stringify(error) + '\n'
+        });
       });
     </script>
   </body>
