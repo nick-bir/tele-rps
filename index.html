@@ -18,9 +18,10 @@
     <script type="text/javascript">
       document.getElementById('send_http').addEventListener("click", () => {
         const authData = window.Telegram.WebApp.initData || '';
-        document.getElementById('send_http').innerText = authData.substring(0, 5);
-        fetch('localhost:8080/auth', {
+        document.getElementById('app_log').innerText += authData.substring(0, 5) + '\n';
+        fetch('http://localhost:8080/auth', {
           method: 'POST',
+
           body: JSON.stringify({
             auth: authData,
             payload: {}
