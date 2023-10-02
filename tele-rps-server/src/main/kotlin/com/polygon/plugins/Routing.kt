@@ -1,5 +1,9 @@
 package com.polygon.plugins
 
+import com.polygon.InboundConnection
+import com.polygon.SessionHandler
+import com.polygon.util.generateToken
+import com.polygon.util.signedHash
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -9,7 +13,7 @@ fun Application.configureRouting() {
     routing {
 
         get("/") {
-            call.respondText("Hello World!")
+            call.respondText("nothing to see here")
         }
 
         options("*") {
@@ -21,7 +25,12 @@ fun Application.configureRouting() {
         post("/auth") {
             call.response.headers.append("Access-Control-Allow-Origin", "*")
             call.response.headers.append("Access-Control-Allow-Headers", "*")
-            call.respondText("Hello World!")
+            if (call.request.headers["Authorization"] == signedHash) {
+                val connection = InboundConnection(token = generateToken())
+                SessionHandler.inboundConnections[connection.token] = connection
+                call.respondText(connection.token)
+            }
+            call.respond(HttpStatusCode.Forbidden)
         }
     }
 }

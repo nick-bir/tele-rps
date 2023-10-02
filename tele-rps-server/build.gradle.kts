@@ -33,6 +33,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-websockets-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("joda-time:joda-time:2.12.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.1.0")

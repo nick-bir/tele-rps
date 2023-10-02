@@ -1,6 +1,9 @@
 package com.polygon.plugins
 
+import com.polygon.SessionHandler
+import com.polygon.SocketConnection
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
@@ -14,16 +17,24 @@ fun Application.configureSockets() {
         masking = false
     }
     routing {
-        webSocket("/ws") { // websocketSession
+        webSocket("/ws") {
+            println("open socket")
+            val uriComponents = call.request.uri.split('?')
+            val authorized = uriComponents.size == 2 && SessionHandler.authorizeToken(uriComponents[1])
+            if (!authorized) {
+                println("not authorized")
+                close()
+            } else {
+                SessionHandler.socketConnections.add(SocketConnection(session = this))
+            }
             for (frame in incoming) {
+                println(frame.toString())
                 if (frame is Frame.Text) {
                     val text = frame.readText()
                     outgoing.send(Frame.Text("YOU SAID: $text"))
-                    if (text.equals("bye", ignoreCase = true)) {
-                        close(CloseReason(CloseReason.Codes.NORMAL, "Client said BYE"))
-                    }
                 }
             }
+            println("closed socket")
         }
     }
 }
