@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import Hands from './Hands.vue';
-import OpponentHand from './OpponentHand.vue';
+import EnemyHand from './EnemyHand.vue';
 import { Figures, useApi } from '../../../logic/api';
 import MyHand from './MyHand.vue';
 
@@ -9,25 +9,25 @@ describe('Players hands (Hands.vue)', () => {
     describe('when I made choise', () => {
         describe('show my hand', () => {
             it('- with choosen weapon', () => {
-                const { getMyHandChoise } = setup({ myChoise: 'paper' });
+                const { getMyHandChoise } = setup({ myWeapon: 'paper' });
             });
         });
         describe('when opponent', () => {
             describe('has not yet choosen', () => {
                 it('- show "choosing" opponent hand', () => {
-                    const { getOpponentHandChoise } = setup({
-                        opponentChoise: 'choosing',
+                    const { getEnemyHandChoise } = setup({
+                        enemyWeapon: 'choosing',
                     });
-                    expect(getOpponentHandChoise()).toBe('choosing');
+                    expect(getEnemyHandChoise()).toBe('choosing');
                 });
             });
 
             describe('has made choise', () => {
                 it.only('- show chosen weapon', () => {
-                    const { getOpponentHandChoise } = setup({
-                        opponentChoise: 'paper',
+                    const { getEnemyHandChoise } = setup({
+                        enemyWeapon: 'paper',
                     });
-                    expect(getOpponentHandChoise()).toBe('paper');
+                    expect(getEnemyHandChoise()).toBe('paper');
                 });
             });
         });
@@ -35,28 +35,28 @@ describe('Players hands (Hands.vue)', () => {
 });
 
 type SetupProps = {
-    myChoise?: Figures;
-    opponentChoise?: Figures;
+    myWeapon?: Figures;
+    enemyWeapon?: Figures;
 };
 function setup({
-    myChoise = 'choosing',
-    opponentChoise = 'choosing',
+    myWeapon = 'choosing',
+    enemyWeapon = 'choosing',
 }: SetupProps = {}) {
-    const { makeMyChoise, makeOpponentChoise, startNewGame } = useApi();
+    const { setMyWeapon, setEnemyWeapon, startNewGame } = useApi();
 
     startNewGame();
-    makeMyChoise(myChoise);
-    makeOpponentChoise(opponentChoise);
+    setMyWeapon(myWeapon);
+    setEnemyWeapon(enemyWeapon);
 
     const wrapper = shallowMount(Hands);
 
     const getMyHandChoise = () => wrapper.findComponent(MyHand).props('choise');
-    const getOpponentHandChoise = () =>
-        wrapper.findComponent(OpponentHand).props('choise');
+    const getEnemyHandChoise = () =>
+        wrapper.findComponent(EnemyHand).props('choise');
 
     return {
         wrapper,
         getMyHandChoise,
-        getOpponentHandChoise,
+        getEnemyHandChoise,
     };
 }

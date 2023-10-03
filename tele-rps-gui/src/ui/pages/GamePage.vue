@@ -1,21 +1,19 @@
 <template>
     <div class="game">
-        <Header>🎸📃✂️ {{ opponentName }}</Header>
-        <Score />
-        <RpsSelector v-if="!isMyChoiseMade" @choise="makeMyChoise" />
-        <Hands v-if="isMyChoiseMade || isRoundFinished" />
+        <Header>fight with {{ enemyName }}</Header>
+        <!-- <Score /> -->
+        <RpsSelector v-if="!isMyWeaponChoosen" @choise="setMyWeapon" />
+        <Hands v-if="isMyWeaponChoosen" />
     </div>
 </template>
 
 <script setup lang="ts">
     import Header from '../components/Header.vue';
-    import Score from '../components/Score.vue';
     import RpsSelector from '../components/RpsSelector.vue';
     import Hands from '../components/Hands/Hands.vue';
     import { useApi } from '../../logic/api';
 
-    const { isRoundFinished, makeMyChoise, isMyChoiseMade, opponentName } =
-        useApi();
+    const { setMyWeapon, isMyWeaponChoosen, enemyName } = useApi();
 </script>
 
 <style>

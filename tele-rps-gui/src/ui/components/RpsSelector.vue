@@ -1,13 +1,39 @@
 <template>
-    <div>
-        <button @click="makeMyChoise('rock')">Rock</button>
-        <button @click="makeMyChoise('paper')">Paper</button>
-        <button @click="makeMyChoise('scissors')">Scissors</button>
+    <div class="rps-selector">
+        <Subheader>Choose your weapon</Subheader>
+        <div class="rps-selector__weapons"></div>
+        <button @click="setMyWeapon('rock')"><Weapon type="rock" /></button>
+        <button @click="setMyWeapon('paper')"><Weapon type="paper" /></button>
+        <button @click="setMyWeapon('scissors')">
+            <Weapon type="scissors" />
+        </button>
     </div>
 </template>
 
 <script setup lang="ts">
     import { useApi } from '../../logic/api';
+    import Weapon from './Weapon.vue';
+    import Subheader from './Subheader.vue';
 
-    const { makeMyChoise } = useApi();
+    const { setMyWeapon } = useApi();
 </script>
+
+<style>
+    .rps-selector {
+        text-align: center;
+    }
+    .rps-selector__weapons {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .rps-selector button {
+        margin: 0 0.5rem;
+        padding: 1rem;
+        border-radius: 10px;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+    }
+</style>

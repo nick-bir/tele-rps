@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <InstructionsPage v-if="isNewGame" />
+        <InstructionsPage v-if="noGameCreated" />
         <GamePage v-if="isGameStarted" />
         <ResultsPage v-if="isGameFinished" />
 
@@ -15,7 +15,7 @@
     import ResultsPage from './ui/pages/ResultsPage.vue';
     import { useApi } from './logic/api';
 
-    const { isNewGame, isGameStarted, isGameFinished } = useApi();
+    const { noGameCreated, isGameStarted, isGameFinished } = useApi();
 </script>
 
 <style>

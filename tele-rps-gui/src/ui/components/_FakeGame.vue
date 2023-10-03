@@ -6,9 +6,9 @@
         </div>
         <div>
             choose for opponent:
-            <button @click="makeOpponentChoise('rock')">Rock</button>
-            <button @click="makeOpponentChoise('paper')">Paper</button>
-            <button @click="makeOpponentChoise('scissors')">Scissors</button>
+            <button @click="setEnemyWeapon('rock')">Rock</button>
+            <button @click="setEnemyWeapon('paper')">Paper</button>
+            <button @click="setEnemyWeapon('scissors')">Scissors</button>
         </div>
     </div>
 </template>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
     import { useApi } from '../../logic/api';
 
-    const { startNewGame, makeOpponentChoise } = useApi();
+    const { startNewGame, setEnemyWeapon } = useApi();
 </script>
 
 <style scoped>

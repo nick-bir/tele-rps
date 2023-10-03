@@ -4,57 +4,46 @@ type GameStatus = 'new' | 'started' | 'finished';
 type Figures = 'rock' | 'paper' | 'scissors' | 'choosing';
 
 const gameStatus = ref<GameStatus>('new');
-const opponentName = ref<string>('@ppo_nent');
-const myChoise = ref<Figures>('choosing');
-const opponentChoise = ref<Figures>('choosing');
+const enemyName = ref<string>('@ppo_nent');
+const myWeapon = ref<Figures>('choosing');
+const enemyWeapon = ref<Figures>('choosing');
 
 function useApi() {
-    const isNewGame = computed(() => gameStatus.value === 'new');
+    const noGameCreated = computed(() => gameStatus.value === 'new');
     const isGameStarted = computed(() => gameStatus.value === 'started');
     const isGameFinished = computed(() => gameStatus.value === 'finished');
-    const isMyChoiseMade = computed(() => myChoise.value !== 'choosing');
-    const isOpponentChoiseMade = computed(
-        () => opponentChoise.value !== 'choosing'
-    );
-    const isBothChoiseMade = computed(
-        () => isMyChoiseMade.value && isOpponentChoiseMade.value
-    );
-    const isRoundFinished = computed(
-        () => isGameStarted.value && isBothChoiseMade.value
-    );
+    const isMyWeaponChoosen = computed(() => myWeapon.value !== 'choosing');
 
     const startNewGame = () => {
         gameStatus.value = 'started';
-        myChoise.value = 'choosing';
+        myWeapon.value = 'choosing';
+        enemyWeapon.value = 'choosing';
     };
 
     const setGameStatus = (status: GameStatus) => (gameStatus.value = status);
 
-    const makeMyChoise = (figure: Figures) => {
-        myChoise.value = figure;
+    const setMyWeapon = (figure: Figures) => {
+        myWeapon.value = figure;
     };
-    const makeOpponentChoise = (figure: Figures) => {
-        opponentChoise.value = figure;
+    const setEnemyWeapon = (figure: Figures) => {
+        enemyWeapon.value = figure;
     };
 
     return {
         startNewGame,
         setGameStatus,
 
-        opponentName,
-        myChoise,
-        opponentChoise,
+        enemyName,
+        myWeapon,
+        enemyWeapon,
 
-        isNewGame,
+        noGameCreated,
         isGameStarted,
-        isMyChoiseMade,
-        isOpponentChoiseMade,
-        isBothChoiseMade,
-        isRoundFinished,
+        isMyWeaponChoosen,
         isGameFinished,
 
-        makeMyChoise,
-        makeOpponentChoise,
+        setMyWeapon,
+        setEnemyWeapon,
     };
 }
 

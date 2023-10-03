@@ -3,16 +3,15 @@ import { describe, it, expect } from 'vitest';
 import Game from './GamePage.vue';
 import RpsSelector from '../components/RpsSelector.vue';
 import Hands from '../components/Hands/Hands.vue';
-import Score from '../components/Score.vue';
 import { Figures, useApi } from '../../logic/api';
 
 describe('Game screen (Game.vue)', () => {
-    describe('always', () => {
-        it('- show score', async () => {
-            const { isScoreVisible } = setup();
-            expect(isScoreVisible()).toBe(true);
-        });
-    });
+    // describe('always', () => {
+    //     it('- show score', async () => {
+    //         const { isScoreVisible } = setup();
+    //         expect(isScoreVisible()).toBe(true);
+    //     });
+    // });
     describe('when new round started', () => {
         it('- hide players hands', () => {
             const { areHandsVisible } = setup();
@@ -26,7 +25,7 @@ describe('Game screen (Game.vue)', () => {
         describe('when I made choise', () => {
             it('- hide rock/paper/scissors selector', () => {
                 const { isRpsSelectorVisible } = setup({
-                    myChoise: 'rock',
+                    myWeapon: 'rock',
                 });
                 expect(isRpsSelectorVisible()).toBe(false);
             });
@@ -40,8 +39,8 @@ describe('Game screen (Game.vue)', () => {
     describe('when round finished', () => {
         it('- show players hands', () => {
             const { areHandsVisible } = setup({
-                myChoise: 'rock',
-                opponentChoise: 'paper',
+                myWeapon: 'rock',
+                enemyWeapon: 'paper',
             });
             expect(areHandsVisible()).toBe(true);
         });
@@ -49,23 +48,22 @@ describe('Game screen (Game.vue)', () => {
 });
 
 type SetupProps = {
-    myChoise?: Figures;
-    opponentChoise?: Figures;
+    myWeapon?: Figures;
+    enemyWeapon?: Figures;
 };
 
 function setup({
-    myChoise = 'choosing',
-    opponentChoise = 'choosing',
+    myWeapon = 'choosing',
+    enemyWeapon = 'choosing',
 }: SetupProps = {}) {
-    const { startNewGame, makeMyChoise, makeOpponentChoise } = useApi();
+    const { startNewGame, setMyWeapon, setEnemyWeapon } = useApi();
 
     startNewGame();
-    makeMyChoise(myChoise);
-    makeOpponentChoise(opponentChoise);
+    setMyWeapon(myWeapon);
+    setEnemyWeapon(enemyWeapon);
 
     const wrapper = shallowMount(Game);
 
-    const isScoreVisible = () => wrapper.findComponent(Score).exists();
     const isRpsSelectorVisible = () =>
         wrapper.findComponent(RpsSelector).exists();
     const areHandsVisible = () => wrapper.findComponent(Hands).exists();
@@ -76,7 +74,6 @@ function setup({
 
     return {
         wrapper,
-        isScoreVisible,
         isRpsSelectorVisible,
         areHandsVisible,
 

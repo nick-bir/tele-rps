@@ -1,5 +1,5 @@
 <template>
-    <Hand :choise="myChoise" name="My hand" />
+    <Hand :choise="myWeapon" name="My hand" />
 </template>
 
 <script setup lang="ts">
@@ -8,5 +8,5 @@
 
     defineProps<{ choise: Figures }>();
 
-    const { myChoise } = useApi();
+    const { myWeapon } = useApi();
 </script>

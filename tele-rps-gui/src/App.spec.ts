@@ -31,10 +31,10 @@ describe('Main screen (App.vue)', () => {
 });
 
 function setup({ isGameStarted = false, isGameFinished = false }) {
-    const { setGameStatus } = useApi();
+    const { setGameStatus, startNewGame } = useApi();
 
     if (isGameStarted) {
-        setGameStatus('started');
+        startNewGame();
     }
     if (isGameFinished) {
         setGameStatus('finished');

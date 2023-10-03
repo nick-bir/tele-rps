@@ -17,3 +17,5 @@ out/
 **/node_modules
 **/.quasar
 **/.vscode
+
+.DS_Store
