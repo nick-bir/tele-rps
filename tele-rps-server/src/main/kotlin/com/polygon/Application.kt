@@ -2,13 +2,18 @@ package com.polygon
 
 import com.polygon.plugins.configureRouting
 import com.polygon.plugins.configureSockets
-import com.polygon.tg.polling.PollingTelegramBot
+import com.polygon.tg.PollingTelegramBot
+import com.polygon.tg.WebhookTelegramBot
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
 fun main() {
-    PollingTelegramBot.startPolling()
+    if (ConfigLoader.config.pollingMode) {
+        PollingTelegramBot.startPolling()
+    } else {
+        WebhookTelegramBot.startWebHook()
+    }
     embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
