@@ -1,7 +1,10 @@
 package com.polygon.mongo
 
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 
@@ -12,9 +15,10 @@ object MongoDriver {
     private val db = client.getDatabase("rps")
     private val gamesTable = db.getCollection<Game>("games")
 
-    fun insertGame(game: Game) {
-        mongoScope.launch {
+    fun insertGame(game: Game): Deferred<Game> {
+        return mongoScope.async {
             gamesTable.insertOne(game)
+            return@async game
         }
     }
 
