@@ -9,7 +9,7 @@ import kotlin.collections.HashSet
 class SocketConnection(val session: DefaultWebSocketSession) {}
 
 data class InboundConnection (val token: String, val expires: DateTime) {
-    constructor(token: String) : this(token, expires = DateTime().plusSeconds(60))
+    constructor(token: String) : this(token, expires = DateTime().plusSeconds(ConfigLoader.config.socketTokenTimeoutSec))
 }
 
 object SessionHandler {

@@ -7,6 +7,9 @@ import javax.crypto.spec.SecretKeySpec
 
 @OptIn(ExperimentalStdlibApi::class)
 fun signedHash(): String {
+    if (ConfigLoader.config.tgHash != null) {
+        return ConfigLoader.config.tgHash
+    }
     val hmacAlgorithm = "HmacSHA256"
     val data = ConfigLoader.config.tgToken
     val key = "WebAppData"

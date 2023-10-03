@@ -3,20 +3,15 @@ package com.polygon.tg.polling
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
-import com.github.kotlintelegrambot.dispatcher.callbackQuery
 import com.github.kotlintelegrambot.dispatcher.command
 import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
-import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
-import com.github.kotlintelegrambot.entities.KeyboardReplyMarkup
 import com.github.kotlintelegrambot.entities.Update
-import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
-import com.github.kotlintelegrambot.entities.keyboard.KeyboardButton
-import com.github.kotlintelegrambot.entities.keyboard.WebAppInfo
 import com.polygon.ConfigLoader
+import com.polygon.text.TextResolver
 
-object LoggingHandler: Handler {
+object LoggingHandler : Handler {
     override fun checkUpdate(update: Update): Boolean {
         println(update.toString())
         return false
@@ -35,41 +30,17 @@ object PollingTelegramBot {
         dispatch {
             println("dispatch")
             addHandler(LoggingHandler)
-            callbackQuery("start") {
+            command("start") {
                 println("start")
                 bot.sendMessage(
-                    ChatId.fromId(callbackQuery.message!!.chat.id),
-                    text = "",
-                    replyMarkup = InlineKeyboardMarkup.create(listOf(InlineKeyboardButton.CallbackData(text = "hi", callbackData = "app")))
-                )
-            }
-            command("app") {
-                println("app")
-                bot.sendMessage(
                     ChatId.fromId(message.chat.id),
-                    text = "",
-                    replyMarkup = KeyboardReplyMarkup(KeyboardButton(text = "", webApp = WebAppInfo(url = "https://nick-bir.github.io/tele-rps/index.html")))
+                    text = TextResolver.fromCode(message.from?.languageCode).start,
                 )
+                update.consume()
             }
             text {
-                println("message: $text")
-                if (text == "/app") {
-                    println("app")
-                    bot.sendMessage(
-                        ChatId.fromId(message.chat.id),
-                        text = "app",
-                        replyMarkup = KeyboardReplyMarkup(KeyboardButton(text = "app", webApp = WebAppInfo(url = "https://nick-bir.github.io/tele-rps/index.html")))
-                    )
-                } else if (text == "/start") {
-                    println("start")
-                    bot.sendMessage(
-                        ChatId.fromId(message.chat.id),
-                        text = "hi",
-                        replyMarkup = InlineKeyboardMarkup.create(listOf(InlineKeyboardButton.CallbackData(text = "hi", callbackData = "app")))
-                    )
-                } else {
-                    bot.sendMessage(ChatId.fromId(message.chat.id), text = text)
-                }
+                bot.sendMessage(ChatId.fromId(message.chat.id), text = TextResolver.fromCode(message.from?.languageCode).unknown)
+                update.consume()
             }
         }
     }
