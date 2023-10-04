@@ -6,7 +6,10 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
-class SocketConnection(val session: DefaultWebSocketSession) {}
+class SocketConnection(val session: DefaultWebSocketSession) {
+    var playerVerifiedId: Long? = null
+    var gameIds: Set<Long> = mutableSetOf()
+}
 
 data class InboundConnection (val token: String, val expires: DateTime) {
     constructor(token: String) : this(token, expires = DateTime().plusSeconds(ConfigLoader.config.socketTokenTimeoutSec))

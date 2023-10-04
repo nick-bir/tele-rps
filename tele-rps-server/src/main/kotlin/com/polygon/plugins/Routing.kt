@@ -8,16 +8,14 @@ import com.polygon.util.generateToken
 import com.polygon.util.signedHash
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
-
-        get("/") {
-            call.respondText("nothing to see here")
-        }
+        staticResources("/", "assets")
 
         options("*") {
             call.response.headers.append("Access-Control-Allow-Origin", "*")
