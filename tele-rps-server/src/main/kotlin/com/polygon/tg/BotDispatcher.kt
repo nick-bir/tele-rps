@@ -10,8 +10,10 @@ import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
+import com.polygon.ChallengeResult
 import com.polygon.ConfigLoader
 import com.polygon.GameController
+import com.polygon.mongo.Game
 import com.polygon.text.TextResolver
 
 object LoggingHandler : Handler {
@@ -34,12 +36,8 @@ val tgDispatcher: Dispatcher.() -> Unit = {
             val textTokens = message.text?.split(' ')
             if (textTokens?.size == 2) {
                 val gameId = textTokens[1]
-//                GameController.processChallenge(userId, gameId)
-                // TODO process who is it against and send corresponding message
-                bot.sendMessage(
-                    ChatId.fromId(message.chat.id),
-                    text = text.challengeAccepted,
-                )
+                val result = GameController.processChallenge(userId, gameId)
+                processChallengeResult(text, result)
             } else {
                 bot.sendMessage(
                     ChatId.fromId(message.chat.id),
@@ -66,6 +64,38 @@ val tgDispatcher: Dispatcher.() -> Unit = {
     text {
         bot.sendMessage(ChatId.fromId(message.chat.id), text = TextResolver.fromCode(message.from?.languageCode).unknown)
         update.consume()
+    }
+}
+
+private fun CommandHandlerEnvironment.processChallengeResult(text: TextResolver, result: Pair<ChallengeResult, Game?>) {
+    when (result.first) {
+        ChallengeResult.SAME_PLAYER -> bot.sendMessage(
+            ChatId.fromId(message.chat.id),
+            text = text.samePlayer
+        )
+        ChallengeResult.NOT_FOUND -> bot.sendMessage(
+            ChatId.fromId(message.chat.id),
+            text = text.samePlayer
+        )
+        ChallengeResult.GAME_IN_PROGRESS -> bot.sendMessage(
+            ChatId.fromId(message.chat.id),
+            text = text.gameInProgress
+        )
+        ChallengeResult.GAME_COMPLETED -> bot.sendMessage(
+            ChatId.fromId(message.chat.id),
+            text = text.gameCompleted
+        )
+        ChallengeResult.OK -> {
+            val game = result.second!!
+            bot.sendMessage(
+                ChatId.fromId(message.chat.id),
+                text = text.challengeAccepted,
+            )
+            bot.sendMessage(
+                ChatId.fromId(game.playerId),
+                text = text.challengeAccepted,
+            )
+        }
     }
 }
 

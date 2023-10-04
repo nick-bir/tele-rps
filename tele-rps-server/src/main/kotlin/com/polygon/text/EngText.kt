@@ -24,4 +24,15 @@ object EngText : TextResolver() {
 
     override val noUser: String
         get() = "Sorry, I can't play with you if I don't know who you are :("
+
+    override val samePlayer: String
+        get() = "Looks like you clicked the button yourself. It's ok, but you still need to forward it to your friend"
+
+    override val gameNotFound: String
+        get() = "Hmm... Something is wrong. Try to challenge your friend again"
+
+    override val gameInProgress: String
+        get() = "This game is already in progress. open the app and play!"
+    override val gameCompleted: String
+        get() = "This game is already completed. If you want to play a new one just send me /challenge again and I'll do the rest"
 }

@@ -17,8 +17,8 @@ enum class Gesture {
 
 enum class GameStatus {
     PENDING,
-    IN_PROGRES,
-    COMPLETE;
+    IN_PROGRESS,
+    COMPLETED;
 }
 
 data class Game(
