@@ -7,8 +7,8 @@ import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 class SocketConnection(val session: DefaultWebSocketSession) {
-    var playerVerifiedId: Long? = null
-    var gameIds: Set<Long> = mutableSetOf()
+    var playerId: Long? = null
+    var gameId: Long? = null
 }
 
 data class InboundConnection (val token: String, val expires: DateTime) {
