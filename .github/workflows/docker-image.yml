@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./tele-rps-server
+        file: ./tele-rps-server/Dockerfile
+        push: false 
+        tags: tele-rps/server:latest
+
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          docker stop tele-rps-server || true
+          docker rm tele-rps-server || true
+          docker load < server.tar
+          docker run -d --name tele-rps-server tele-rps/server
