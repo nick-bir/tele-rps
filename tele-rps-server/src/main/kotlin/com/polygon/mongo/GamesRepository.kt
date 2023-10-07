@@ -1,19 +1,16 @@
 package com.polygon.mongo
 
 import com.mongodb.client.model.Filters.eq
+import com.mongodb.client.model.Filters.or
+import com.mongodb.client.result.UpdateResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 object GamesRepository {
     private val mongoUri = "mongodb://root:example@127.0.0.1:27017"
     private val client = MongoClient.create(mongoUri)
-    private val mongoScope = CoroutineScope(Dispatchers.Default)
+    private val mongoScope = CoroutineScope(Dispatchers.IO)
     private val db = client.getDatabase("rps")
     private val gamesTable = db.getCollection<Game>("games")
 
@@ -30,13 +27,25 @@ object GamesRepository {
         }
     }
 
-    fun list(): Deferred<List<Game>> {
+    fun update(game: Game): Deferred<UpdateResult> {
         return mongoScope.async {
-            val games = mutableListOf<Game>()
-            gamesTable.find().onEach {
-                games.add(it)
-            }.collect()
-            return@async games
+            return@async gamesTable.replaceOne(eq("gameId", game.gameId), game)
+        }
+    }
+
+    fun getLastByPlayerId(playerId: Long): Deferred<Game?> {
+        return mongoScope.async {
+            val games = gamesTable.find(or(eq("playerId", playerId), eq("opponentId", playerId)))
+            if (games.count() == 0) {
+                return@async null
+            }
+            return@async games.reduce { g1, g2 ->
+                if (g1.lastUpdate > g2.lastUpdate) {
+                    g1
+                } else {
+                    g2
+                }
+            }
         }
     }
 }
