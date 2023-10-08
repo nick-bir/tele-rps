@@ -2,17 +2,22 @@ package com.polygon.text
 
 object EngText : TextResolver() {
     override val start: String
-        get() = "Hi! Delighted to see you here. Try out our brand new game. It's in the menu button ;)"
-    override val startChallenge: String
         get() = """
-            Here's how to play:
-            1. Send me /challenge command
-            2. I'll send you the button for your friend
-            3. They need to click the button and I'll match you
-            4. Open the mini-app in menu and play""".trimIndent()
+            Rock-paper-scissors!
+            
+            ABOUT THE GAME
+            
+            Challenge anyone in the world to conclude an argument, toss a coin or simply for fun. Remember, rock breaks scissors, paper wraps the rock and scissors cut paper. Good luck!
+
+            HOW TO PLAY
+            
+            1. Send /challenge in chat 
+            2. Forward button PLAY to your opponent to challenge them
+            3. Open the app in the menu and battle!
+        """.trimIndent()
 
     override val play: String
-        get() = "Play!"
+        get() = "PLAY"
 
     override val inviteChallenge: String
         get() = "Play the ultimate ROCK-PAPER-SCISSORS with me! Hit the button below!"
@@ -32,7 +37,7 @@ object EngText : TextResolver() {
         get() = "Hmm... Something is wrong. Try to challenge your friend again"
 
     override val gameInProgress: String
-        get() = "This game is already in progress. open the app and play!"
+        get() = "This game is already in progress. Open the app and play!"
     override val gameCompleted: String
-        get() = "This game is already completed. If you want to play a new one just send me /challenge again and I'll do the rest"
+        get() = start
 }

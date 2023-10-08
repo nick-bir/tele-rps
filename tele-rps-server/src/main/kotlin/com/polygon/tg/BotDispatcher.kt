@@ -8,6 +8,7 @@ import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
+import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.polygon.ChallengeResult
@@ -41,11 +42,7 @@ val tgDispatcher: Dispatcher.() -> Unit = {
             } else {
                 bot.sendMessage(
                     ChatId.fromId(message.chat.id),
-                    text = text.start,
-                )
-                bot.sendMessage(
-                    ChatId.fromId(message.chat.id),
-                    text = TextResolver.fromCode(message.from?.languageCode).startChallenge,
+                    text = text.start
                 )
             }
         }
@@ -56,7 +53,7 @@ val tgDispatcher: Dispatcher.() -> Unit = {
             val link = "https://t.me/${ConfigLoader.config.tgName}?start=${game.gameId}"
             bot.sendMessage(
                     ChatId.fromId(message.chat.id),
-                    text = text.play,
+                    text = text.inviteChallenge,
                     replyMarkup = InlineKeyboardMarkup.createSingleButton(InlineKeyboardButton.Url(text = text.play, url = link))
                 )
             }
