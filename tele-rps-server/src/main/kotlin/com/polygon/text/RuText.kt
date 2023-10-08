@@ -2,38 +2,46 @@ package com.polygon.text
 
 object RuText: TextResolver() {
     override val start: String
-        get() = "Дарова! Ну шо, как насчёт в шамхматишки? Или ещё чего? Кнопка в меню"
-    override val startChallenge: String
         get() = """
-            Here's how to play:
-            1. Send me /challenge command
-            2. I'll send you the button for your friend
-            3. They need to click the button and I'll match you
-            4. Open the mini-app in menu and play""".trimIndent()
+            Камень-ножницы-бумага!
+            
+            ОБ ИГРЕ
+            
+            Брось вызов игрокам со всего мира, чтобы решить спор, заменить жеребьевку или просто повеселиться. Не забывай, что камень ломает ножницы, бумага обертывает камень, а ножницы режут бумагу. Удачи!
+
+            КАК ИГРАТЬ
+            
+            1. Отправь в чат /challenge 
+            2. Перешли кнопку ИГРАТЬ своему противнику, чтобы бросить вызов
+            3. Открой приложение в меню и сражайся!
+        """.trimIndent()
 
     override val inviteChallenge: String
-        get() = "Play the ultimate ROCK-PAPER-SCISSORS with me! Hit the button below!"
+        get() = """
+            Камень-ножницы-бумага!
+            Кто из нас с тобой круче?
+        """.trimIndent()
 
     override val challengeAccepted: String
-        get() = "Challenge accepted! Let the battle begin! Open the game in the menu button".trimIndent()
+        get() = "Вызов принят! Открой приложение в меню, выбери действие и ожидай ход противника.".trimIndent()
 
     override val noUser: String
-        get() = "Sorry, I can't play with you if I don't know who you are :("
+        get() = "Прости, я не могу играть с незнакомцами \uD83D\uDE41 Проверь свои настройки конфиденциальности."
 
     override val unknown: String
-        get() = "Дружище, ты о чём? Я думал мы серьёзными делами займёмся. Просто нажми кнопку и поиграем"
+        get() = "Прости, я тебя не понимаю. Зря я прогуливал пары в Академии искуственного интеллекта \uD83D\uDE41"
 
     override val play: String
-        get() = "Играть!"
+        get() = "ИГРАТЬ"
 
     override val samePlayer: String
-        get() = "Looks like you clicked the button yourself. It's ok, but you still need to forward it to your friend"
+        get() = "Игра для двоих. Перешли кнопку ИГРАТЬ своему противнику."
 
     override val gameNotFound: String
-        get() = "Hmm... Something is wrong. Try to challenge your friend again"
+        get() = "Хмм.. Что-то пошло не так. Попробуй бросить вызов снова."
 
     override val gameInProgress: String
-        get() = "This game is already in progress. open the app and play!"
+        get() = "Вызов уже принят. Открой приложение в меню, выбери действие и ожидай ход противника."
     override val gameCompleted: String
-        get() = "This game is already completed. If you want to play a new one just send me /challenge again and I'll do the rest"
+        get() = start
 }
