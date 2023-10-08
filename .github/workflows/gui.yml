@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Deploy GUI
 
 on:
   workflow_dispatch:
