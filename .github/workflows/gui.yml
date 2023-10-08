@@ -48,4 +48,4 @@ jobs:
           docker stop tele-rps-gui || true
           docker rm tele-rps-gui || true
           docker load < /root/images/gui.tar
-          docker run p 80:80 -d --name tele-rps-gui tele-rps/gui
+          docker run -p 80:80 -d --name tele-rps-gui tele-rps/gui
