@@ -10,6 +10,7 @@ data class Config(
     val socketTokenTimeoutSec: Int,
     val webhookPath: String?,
     val webhookDomain: String?,
+    val port: Int
 )
 
 object ConfigLoader {
@@ -31,6 +32,7 @@ object ConfigLoader {
             socketTokenTimeoutSec = getNullableFromSources("socket_token_timeout_sec")?.toIntOrNull() ?: 10,
             webhookPath = getNullableFromSources("webhook_path"),
             webhookDomain = getNullableFromSources("webhook_domain"),
+            port = getFromSources("port").toInt()
         )
 
     private fun getNullableFromSources(key: String): String? {

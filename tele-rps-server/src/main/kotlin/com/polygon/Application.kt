@@ -14,7 +14,7 @@ fun main() {
     } else {
         WebhookTelegramBot.startWebHook()
     }
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+    embeddedServer(Netty, port = ConfigLoader.config.port, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 
