@@ -1,0 +1,46 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./tele-rps-gui
+        file: ./tele-rps-gui/Dockerfile
+        push: false 
+        tags: tele-rps/gui:latest
+
+    - name: Save Docker image
+      run: docker save tele-rps/gui:latest > gui.tar
+
+    - name: Copy Docker image to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        source: "gui.tar"
+        target: "/root/images/"
+
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          docker stop tele-rps-gui || true
+          docker rm tele-rps-gui || true
+          docker load < /root/images/gui.tar
+          docker run -p 80:80 -d --name tele-rps-gui tele-rps/gui

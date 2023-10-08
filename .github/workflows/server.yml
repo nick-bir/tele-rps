@@ -1,0 +1,50 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./tele-rps-server
+        file: ./tele-rps-server/Dockerfile
+        push: false 
+        tags: tele-rps/server:latest
+        build-args: |
+          WEBHOOK_DOMAIN=${{ secrets.WEBHOOK_DOMAIN }}
+          WEBHOOK_PATH=${{ secrets.WEBHOOK_PATH }}
+          TG_TOKEN=${{ secrets.TG_TOKEN }}
+
+    - name: Save Docker image
+      run: docker save tele-rps/server:latest > server.tar
+
+    - name: Copy Docker image to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        source: "server.tar"
+        target: "/root/images/"
+
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          docker stop tele-rps-server || true
+          docker rm tele-rps-server || true
+          docker load < /root/images/server.tar
+          docker run -p 8080:8080 -e WEBHOOK_DOMAIN=${{ secrets.WEBHOOK_DOMAIN }} -e WEBHOOK_PATH=${{ secrets.WEBHOOK_PATH }} -e TG_TOKEN=${{ secrets.TG_TOKEN }} -d --name tele-rps-server tele-rps/server

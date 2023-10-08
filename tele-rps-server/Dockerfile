@@ -1,4 +1,13 @@
 FROM amazoncorretto:17-alpine as build
+
+ARG WEBHOOK_DOMAIN
+ARG WEBHOOK_PATH
+ARG TG_TOKEN
+
+ENV WEBHOOK_DOMAIN=$WEBHOOK_DOMAIN
+ENV WEBHOOK_PATH=$WEBHOOK_PATH
+ENV TG_TOKEN=$TG_TOKEN
+
 COPY gradlew .
 COPY gradle gradle
 COPY gradle.properties gradle.properties
