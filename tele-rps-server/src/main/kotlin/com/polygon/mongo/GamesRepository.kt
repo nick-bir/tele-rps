@@ -4,13 +4,20 @@ import com.mongodb.client.model.Filters.eq
 import com.mongodb.client.model.Filters.or
 import com.mongodb.client.result.UpdateResult
 import com.mongodb.kotlin.client.coroutine.MongoClient
+import com.polygon.ConfigLoader
+import com.polygon.MongoConfig
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import org.slf4j.LoggerFactory
 import java.util.*
 
 object GamesRepository {
-    private val mongoUri = "mongodb://root:example@127.0.0.1:27017"
+    private fun buildMongoUri(cfg: MongoConfig): String {
+        val userPart = if (cfg.user != null) "${cfg.user}:${cfg.password}@" else ""
+        return "mongodb://$userPart@${cfg.url}"
+    }
+
+    private val mongoUri = buildMongoUri(ConfigLoader.config.mongo)
     private val client = MongoClient.create(mongoUri)
     private val mongoScope = CoroutineScope(Dispatchers.IO)
     private val db = client.getDatabase("rps")

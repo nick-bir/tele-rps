@@ -2,6 +2,12 @@ package com.polygon
 
 import java.util.Properties
 
+data class MongoConfig(
+    val url: String,
+    val user: String?,
+    val password: String?
+)
+
 data class Config(
     val tgToken: String,
     val tgName: String,
@@ -10,7 +16,8 @@ data class Config(
     val socketTokenTimeoutSec: Int,
     val webhookPath: String?,
     val webhookDomain: String?,
-    val port: Int
+    val port: Int,
+    val mongo: MongoConfig
 )
 
 object ConfigLoader {
@@ -32,7 +39,12 @@ object ConfigLoader {
             socketTokenTimeoutSec = getNullableFromSources("socket_token_timeout_sec")?.toIntOrNull() ?: 10,
             webhookPath = getNullableFromSources("webhook_path"),
             webhookDomain = getNullableFromSources("webhook_domain"),
-            port = getFromSources("port").toInt()
+            port = getFromSources("port").toInt(),
+            mongo = MongoConfig(
+                url = getFromSources("mongo_url"),
+                user = getNullableFromSources("mongo_user"),
+                password = getNullableFromSources("mongo_password"),
+            )
         )
 
     private fun getNullableFromSources(key: String): String? {
