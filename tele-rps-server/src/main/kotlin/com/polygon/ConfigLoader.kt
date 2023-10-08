@@ -18,7 +18,23 @@ data class Config(
     val webhookDomain: String?,
     val port: Int,
     val mongo: MongoConfig
-)
+) {
+    override fun toString(): String {
+        return """
+            tgToken=${tgToken.length} characters
+            tgName=$tgName
+            pollingMode=$pollingMode
+            tgHash=$tgHash
+            socketTokenTimeoutSec=$socketTokenTimeoutSec
+            webhookPath=$webhookPath
+            webhookDomain=$webhookDomain
+            port=$port
+            mongo.url=${mongo.url}
+            mongo.user=${mongo.user?.length ?: 0} characters
+            mongo.password=${mongo.password?.length ?: 0} characters
+        """.trimIndent()
+    }
+}
 
 object ConfigLoader {
     private val sources = listOf(

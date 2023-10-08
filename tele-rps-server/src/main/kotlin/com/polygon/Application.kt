@@ -9,6 +9,7 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 
 fun main() {
+    println(ConfigLoader.config)
     if (ConfigLoader.config.pollingMode) {
         PollingTelegramBot.startPolling()
     } else {
