@@ -35,7 +35,7 @@ object ConfigLoader {
 
     private fun getNullableFromSources(key: String): String? {
         this.sources.forEach {
-            val prop = it?.get(key)?.toString()
+            val prop = it?.get(key)?.toString() ?: it?.get(key.uppercase())?.toString()
             if (prop != null) {
                 return prop
             }
@@ -44,12 +44,7 @@ object ConfigLoader {
     }
 
     private fun ConfigLoader.getFromSources(key: String): String {
-        this.sources.forEach {
-            val prop = it?.get(key)?.toString()
-            if (prop != null) {
-                return prop
-            }
-        }
-        throw Exception("No key $key in config")
+        val prop = getNullableFromSources(key)
+        return prop ?: throw Exception("No key $key in config")
     }
 }
