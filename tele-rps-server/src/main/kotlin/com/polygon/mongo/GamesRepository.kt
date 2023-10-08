@@ -13,7 +13,7 @@ import java.util.*
 
 object GamesRepository {
     private fun buildMongoUri(cfg: MongoConfig): String {
-        val userPart = if (cfg.user != null) "${cfg.user}:${cfg.password}@" else ""
+        val userPart = if ((cfg.user?.length ?: 0) > 0) "${cfg.user}:${cfg.password}@" else ""
         return "mongodb://$userPart@${cfg.url}"
     }
 
