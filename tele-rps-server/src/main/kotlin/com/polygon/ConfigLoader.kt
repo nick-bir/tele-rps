@@ -13,22 +13,43 @@ data class Config(
 )
 
 object ConfigLoader {
-    private val defaultProperties = javaClass.classLoader.getResourceAsStream("application.properties")?.use {
-        Properties().apply { load(it) }
-    } ?: System.getProperties()
-    val config = (javaClass.classLoader.getResourceAsStream("application.local.properties")?.use {
-        Properties().apply { load(it) }
-    } ?: defaultProperties).let {
-        Config(
-            tgToken = it.getWithDefault("tg_token") ?: throw Exception("No tg token in config"),
-            tgName = it.getWithDefault("tg_name") ?: throw Exception("No tg name in config"),
-            tgHash = it.getWithDefault("tg_hash"),
-            pollingMode = it.getWithDefault("polling_mode")?.toBoolean() ?: false,
-            socketTokenTimeoutSec = it.getWithDefault("socket_token_timeout_sec")?.toIntOrNull() ?: 10,
-            webhookPath = it.getWithDefault("webhook_path"),
-            webhookDomain = it.getWithDefault("webhook_domain"),
+    private val sources = listOf(
+        javaClass.classLoader.getResourceAsStream("application.local.properties")?.use {
+            Properties().apply { load(it) }
+        },
+        javaClass.classLoader.getResourceAsStream("application.properties")?.use {
+            Properties().apply { load(it) }
+        },
+        System.getenv()
+    )
+
+    val config = Config(
+            tgToken = getFromSources("tg_token"),
+            tgName = getFromSources("tg_name"),
+            tgHash = getNullableFromSources("tg_hash"),
+            pollingMode = getNullableFromSources("polling_mode")?.toBoolean() ?: false,
+            socketTokenTimeoutSec = getNullableFromSources("socket_token_timeout_sec")?.toIntOrNull() ?: 10,
+            webhookPath = getNullableFromSources("webhook_path"),
+            webhookDomain = getNullableFromSources("webhook_domain"),
         )
+
+    private fun getNullableFromSources(key: String): String? {
+        this.sources.forEach {
+            val prop = it?.get(key)?.toString()
+            if (prop != null) {
+                return prop
+            }
+        }
+        return null
     }
 
-    private fun Properties.getWithDefault(key: String) = this.getProperty(key) ?: defaultProperties.getProperty(key)
+    private fun ConfigLoader.getFromSources(key: String): String {
+        this.sources.forEach {
+            val prop = it?.get(key)?.toString()
+            if (prop != null) {
+                return prop
+            }
+        }
+        throw Exception("No key $key in config")
+    }
 }
