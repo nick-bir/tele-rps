@@ -1,12 +1,12 @@
 name: Docker Image CI
 
-on:
-  workflow_dispatch:
-
 #on:
-#  push:
-#    branches:
-#      - ci/cd
+#  workflow_dispatch:
+
+on:
+  push:
+    branches:
+      - ci/cd
 
 jobs:
 
@@ -25,6 +25,22 @@ jobs:
         file: ./tele-rps-server/Dockerfile
         push: false 
         tags: tele-rps/server:latest
+        build-args: |
+          WEBHOOK_DOMAIN=${{ secrets.WEBHOOK_DOMAIN }}
+          WEBHOOK_PATH=${{ secrets.WEBHOOK_PATH }}
+          TG_TOKEN=${{ secrets.TG_TOKEN }}
+
+    - name: Save Docker image
+      run: docker save tele-rps/server:latest > server.tar
+
+    - name: Copy Docker image to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        source: "server.tar"
+        target: "/root/images/"
 
     - name: Deploy to server
       uses: appleboy/ssh-action@master
@@ -35,5 +51,5 @@ jobs:
         script: |
           docker stop tele-rps-server || true
           docker rm tele-rps-server || true
-          docker load < server.tar
-          docker run -d --name tele-rps-server tele-rps/server
+          docker load < /root/images/server.tar
+          docker run -p 8080:8080 -d --name tele-rps-server tele-rps/server
