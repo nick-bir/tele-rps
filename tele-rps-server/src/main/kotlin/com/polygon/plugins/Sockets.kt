@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.polygon.GameController
+import com.polygon.mongo.Game
 import com.polygon.mongo.GameResult
 import com.polygon.mongo.GamesRepository
 import com.polygon.socket.*
@@ -49,40 +50,45 @@ fun Application.configureSockets() {
 
 suspend fun SocketSession.stateMachine(objectMapper: ObjectMapper, incomingMessage: InMessage) {
     if (incomingMessage.type == null) {
-        return closeWithMessage("no type")
+        return closeWithMessage("NO_TYPE")
     }
     if (incomingMessage.from == null) {
-        return closeWithMessage("no sender")
+        return closeWithMessage("NO_SENDER")
     }
     if (incomingMessage.type == IncomingMessageType.HELLO) {
         val game = GamesRepository.getLastByPlayerId(incomingMessage.from).await() ?: return closeWithMessage("no game")
-        SocketSession.setGameInfo(this, game.playerId, game.gameId)
+        SocketSession.setGameInfo(this, incomingMessage.from, game.gameId)
+        sendGameUpdate(objectMapper, game)
         return
     }
     if (incomingMessage.type == IncomingMessageType.MOVE) {
-        val gameId = this.gameId ?: return closeWithMessage("no game")
-        val gesture = incomingMessage.gesture ?: return closeWithMessage("no gesture")
+        val gameId = this.gameId ?: return closeWithMessage("NO_GAME")
+        val gesture = incomingMessage.gesture ?: return closeWithMessage("NO_GESTURE")
         val game = GameController.makeMove(incomingMessage.from, gameId, gesture)
         if (game != null) {
             val sessions = SocketSession.sessionsByGameId(game.gameId)
             sessions.forEach {
-                val thisIsOpponent = it.playerId == game.opponentId
-                val playerGesture = if (thisIsOpponent) game.opponentGesture else game.playerGesture
-                val opponentGesture = if (thisIsOpponent) game.playerGesture else game.opponentGesture
-                val result = when {
-                    thisIsOpponent && game.result == GameResult.VICTORY -> GameResult.DEFEAT
-                    thisIsOpponent && game.result == GameResult.DEFEAT -> GameResult.VICTORY
-                    else -> game.result
-                }
-                val message = OutMessage(game.status, playerGesture, opponentGesture, result)
-                val strMessage = objectMapper.writeValueAsString(message)
-                it.session.send(strMessage)
+                it.sendGameUpdate(objectMapper, game)
             }
         }
     }
 }
 
 suspend fun SocketSession.closeWithMessage(message: String) {
-    session.close(CloseReason(4000, "no game"))
+    session.close(CloseReason(4000, message))
     println("$message. closing")
+}
+
+suspend fun SocketSession.sendGameUpdate(objectMapper: ObjectMapper, game: Game) {
+    val thisIsOpponent = this.playerId == game.opponentId
+    val playerGesture = if (thisIsOpponent) game.opponentGesture else game.playerGesture
+    val opponentGesture = if (thisIsOpponent) game.playerGesture else game.opponentGesture
+    val result = when {
+        thisIsOpponent && game.result == GameResult.VICTORY -> GameResult.DEFEAT
+        thisIsOpponent && game.result == GameResult.DEFEAT -> GameResult.VICTORY
+        else -> game.result
+    }
+    val message = OutMessage(game.status, playerGesture, opponentGesture, result)
+    val strMessage = objectMapper.writeValueAsString(message)
+    session.send(strMessage)
 }

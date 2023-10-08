@@ -1,5 +1,7 @@
 package com.polygon.mongo
 
+import org.bson.codecs.pojo.annotations.BsonId
+import org.bson.codecs.pojo.annotations.BsonProperty
 import java.util.Date
 import java.util.UUID
 
@@ -22,6 +24,8 @@ enum class GameStatus {
 }
 
 data class Game(
+    @BsonId
+    @BsonProperty("_id")
     val gameId: String,
     val status: GameStatus,
     val lastUpdate: Date,

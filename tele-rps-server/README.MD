@@ -30,3 +30,23 @@ tg_hash=test
 socket_token_timeout_sec=60
 polling_mode=true
 ```
+<h3>Token Protocol</h3>
+1. client sends `{type: "HELLO", from: tg_user_id}`
+2. server sends current game updates in format 
+```
+{
+    gameStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED",
+    yourGesture: "ROCK" | "PAPER" | "SCISSORS" | null,
+    opponentGesture: "ROCK" | "PAPER" | "SCISSORS" | null,
+    gameResult: "VICTORY" | "DEFEAT" | "DRAW" | null
+}
+```
+3. client sends 
+```
+{
+    type: "MOVE",
+    from: tg_user_id,
+    gesture: "ROCK" | "PAPER" | "SCISSORS"
+}
+```
+4. server sends current game updates in format same as above 

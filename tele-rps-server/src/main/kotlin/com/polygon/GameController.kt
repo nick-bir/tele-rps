@@ -2,6 +2,7 @@ package com.polygon
 
 import com.polygon.mongo.*
 import kotlinx.coroutines.Deferred
+import java.util.*
 
 enum class ChallengeResult {
     NOT_FOUND,
@@ -23,7 +24,11 @@ object GameController {
             game.playerId == userId -> ChallengeResult.SAME_PLAYER
             game.status == GameStatus.IN_PROGRESS -> ChallengeResult.GAME_IN_PROGRESS
             game.status == GameStatus.COMPLETED -> ChallengeResult.GAME_COMPLETED
-            else -> ChallengeResult.OK
+            else -> {
+                val newGame = game.copy(status = GameStatus.IN_PROGRESS, opponentId = userId)
+                GamesRepository.update(newGame).await()
+                ChallengeResult.OK
+            }
         }
         return res to game
     }
@@ -51,8 +56,8 @@ object GameController {
     fun gameResult(gestureA: Gesture?, gestureB: Gesture?) = when {
         gestureA == null || gestureB == null -> null
         gestureA == gestureB -> GameResult.DRAW
-        gestureA.ordinal + 1 == gestureB.ordinal -> GameResult.VICTORY
-        gestureA.ordinal == gestureB.ordinal + 2 -> GameResult.VICTORY
+        gestureA.ordinal == gestureB.ordinal + 1 -> GameResult.VICTORY
+        gestureA.ordinal + 2 == gestureB.ordinal -> GameResult.VICTORY
         else -> GameResult.DEFEAT
     }
 }
