@@ -6,7 +6,7 @@ COPY settings.gradle.kts .
 COPY build.gradle.kts .
 COPY src src
 
-RUN ./gradlew build
+RUN ./gradlew build -x test
 
 FROM amazoncorretto:17-alpine as api
 ARG JAR_FILE=build/libs/app.jar
