@@ -47,4 +47,4 @@ jobs:
           docker stop tele-rps-server || true
           docker rm tele-rps-server || true
           docker load < /root/images/server.tar
-          docker run -p 80:8080 -e WEBHOOK_DOMAIN=${{ secrets.WEBHOOK_DOMAIN }} -e WEBHOOK_PATH=${{ secrets.WEBHOOK_PATH }} -e TG_TOKEN=${{ secrets.TG_TOKEN }} -d --name tele-rps-server tele-rps/server
+          docker run -p 8080:8080 --network=telechess -e WEBHOOK_DOMAIN=${{ secrets.WEBHOOK_DOMAIN }} -e WEBHOOK_PATH=${{ secrets.WEBHOOK_PATH }} -e TG_TOKEN=${{ secrets.TG_TOKEN }} -d --name tele-rps-server tele-rps/server
