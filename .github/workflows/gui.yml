@@ -1,0 +1,39 @@
+name: Docker Image CI
+
+#on:
+#  workflow_dispatch:
+
+on:
+  push:
+    branches:
+      - ci/cd
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./tele-rps-gui
+        file: ./tele-rps-gui/Dockerfile
+        push: false 
+        tags: tele-rps/gui:latest
+
+    - name: Deploy to server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DEPLOY_SERVER }}
+        username: ${{ secrets.DEPLOY_USER }}
+        key: ${{ secrets.DEPLOY_SSH_KEY }}
+        script: |
+          docker stop tele-rps-gui || true
+          docker rm tele-rps-gui || true
+          docker load < gui.tar
+          docker run -d --name tele-rps-gui tele-rps/gui
