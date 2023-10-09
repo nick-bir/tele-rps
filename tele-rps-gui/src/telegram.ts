@@ -1,5 +1,5 @@
 const DEV_WEBAPP_TOKEN = 'test';
-const DEV_USER_ID = 123456;
+const DEV_USER_ID = 123456
 
 function getWebAppToken() {
     // @ts-expect-error cannot find Telegram

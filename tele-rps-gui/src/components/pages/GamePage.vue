@@ -2,8 +2,8 @@
     <div class="game">
         <Header>fight with {{ enemyName }}</Header>
         <!-- <Score /> -->
-        <RpsSelector v-if="!isMyWeaponChoosen" @choise="setMyWeapon" />
-        <Hands v-if="isMyWeaponChoosen" />
+        <RpsSelector v-if="!isMyWeaponChosen" @choise="setMyWeapon" />
+        <Hands v-if="isMyWeaponChosen" />
     </div>
 </template>
 
@@ -13,7 +13,7 @@
     import Hands from '../Hands/Hands.vue';
     import { useState } from '../../state';
 
-    const { setMyWeapon, isMyWeaponChoosen, enemyName } = useState();
+    const { setMyWeapon, isMyWeaponChosen, enemyName } = useState();
 </script>
 
 <style>

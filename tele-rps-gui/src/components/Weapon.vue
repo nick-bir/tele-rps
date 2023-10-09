@@ -22,7 +22,7 @@
             case 'choosing':
                 return '🤔';
             case 'rock':
-                return '🎸';
+                return '🪨';
             case 'paper':
                 return '📃';
             case 'scissors':

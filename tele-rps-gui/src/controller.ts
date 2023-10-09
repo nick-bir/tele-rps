@@ -1,28 +1,34 @@
 import {
-    authenticateApp,
+    authenticateApp, mapGestureToFigure,
     onConnected,
     onMessage,
     openWebSocket,
-    requestGameState,
+    requestGameState, SocketMessage,
 } from './backend';
-import { useState } from './state';
+import {Figures, useState} from './state';
 
 async function connect() {
     const state = useState();
 
+
     await authenticateApp();
-    await openWebSocket();
+    const ws = await openWebSocket();
+    state.setWs(ws);
 
     onConnected(() => {
         console.log('---onConnected');
         requestGameState();
     });
 
-    onMessage((data) => {
+    onMessage((data: SocketMessage) => {
         console.log('---onMessage', data);
-
-        // TODO:
-        // setEnemyName(data.enemyName);
+        if (!data.gameResult) {
+            state.setGameStatus('started')
+        } else {
+            state.setGameStatus('finished')
+            state.setGameResult(data.gameResult)
+        }
+        state.setEnemyWeapon(mapGestureToFigure(data.opponentGesture));
     });
 }
 
