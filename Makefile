@@ -7,3 +7,6 @@ test-gui:
 deps-gui:
 	cd tele-rps-gui && yarn install
 
+docker-server:
+	cd tele-rps-server && docker-compose up
+
