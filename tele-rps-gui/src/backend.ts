@@ -1,11 +1,15 @@
 import { getConfig } from './config/config';
+import { getUserId, getWebAppToken } from './telegram';
 import { getLogger } from './utils';
-const log = getLogger('backend');
 
 let webAppAuthToken: string;
+let ws: WebSocket;
+let onMessageHandler: (data: any) => void;
+let onConnectedHandler: () => void;
 
 async function authenticateApp() {
     const log = getLogger('backend.authenticateApp');
+
     if (webAppAuthToken) {
         log('already authenticated');
         return;
@@ -13,13 +17,11 @@ async function authenticateApp() {
 
     log('getting token');
 
-    getConfig().telegramAppToken;
-
     try {
         const result = await fetch(getConfig().authUrl, {
             method: 'POST',
             headers: {
-                Authorization: getConfig().telegramAppToken,
+                Authorization: getWebAppToken(),
             },
         });
 
@@ -29,13 +31,41 @@ async function authenticateApp() {
 
         log('token recieved');
 
-        const token = await result.text();
-
-        webAppAuthToken = token;
+        webAppAuthToken = await result.text();
     } catch (e) {
         log.error(e);
         throw e;
     }
 }
 
-export { authenticateApp };
+function openWebSocket() {
+    ws = new WebSocket(`${getConfig().wsUrl}?${webAppAuthToken}`);
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        onMessageHandler(data);
+    };
+
+    ws.addEventListener('open', () => {
+        onConnectedHandler();
+    });
+}
+
+function onConnected(handler: () => void) {
+    onConnectedHandler = handler;
+}
+
+function onMessage(handler: (data: any) => void) {
+    onMessageHandler = handler;
+}
+
+function requestGameState() {
+    ws.send(JSON.stringify({ type: 'HELLO', from: getUserId() }));
+}
+
+export {
+    authenticateApp,
+    openWebSocket,
+    onConnected,
+    onMessage,
+    requestGameState,
+};

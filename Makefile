@@ -8,5 +8,5 @@ deps-gui:
 	cd tele-rps-gui && yarn install
 
 docker-server:
-	cd tele-rps-server && docker-compose up
+	cd tele-rps-server && docker-compose up --build
 

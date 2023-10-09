@@ -24,7 +24,7 @@ const ws = new WebSocket(`ws://localhost:8080/ws?${token}`);
 
 ### Local Testing
 
-1. Put `application.local.properties` next to `application.properties`
+1. Put `application.local.properties` next to `src/main/resources/application.properties`
 2. Create TG bot in bot_father, save the tg-bot token
 3. Put following config:
 

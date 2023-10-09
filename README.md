@@ -22,5 +22,5 @@ make dev-gui
 ### To run tests
 
 ```bash
-makde test-gui
+make test-gui
 ```
