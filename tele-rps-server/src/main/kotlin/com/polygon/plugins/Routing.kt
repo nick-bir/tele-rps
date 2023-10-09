@@ -3,7 +3,7 @@ package com.polygon.plugins
 import com.polygon.ConfigLoader
 import com.polygon.socket.InboundSessionHandler
 import com.polygon.tg.WebhookTelegramBot
-import com.polygon.util.signedHash
+import com.polygon.util.validateTgInitData
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -33,7 +33,8 @@ fun Application.configureRouting() {
         post("/auth") {
             call.response.headers.append("Access-Control-Allow-Origin", "*")
             call.response.headers.append("Access-Control-Allow-Headers", "*")
-            if (call.request.headers["Authorization"] == signedHash) {
+            val body = call.receiveText()
+            if (validateTgInitData(body)) {
                 val token = InboundSessionHandler.issueToken()
                 call.respondText(token)
             }

@@ -1,5 +1,5 @@
 import { getConfig } from './config/config';
-import { getUserId, getWebAppToken } from './telegram';
+import {getUserId, getWebAppInitData} from './telegram';
 import { getLogger } from './utils';
 import {Figures} from "./state.ts";
 
@@ -21,9 +21,7 @@ async function authenticateApp() {
     try {
         const result = await fetch(getConfig().authUrl, {
             method: 'POST',
-            headers: {
-                Authorization: getWebAppToken(),
-            },
+            body: getWebAppInitData(),
         });
 
         if (!result.ok) {
