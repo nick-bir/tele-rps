@@ -9,7 +9,7 @@
 <script setup lang="ts">
     import Subheader from '../Subheader.vue';
     import { defineProps } from 'vue';
-    import { Figures } from '../../../logic/api';
+    import { Figures } from '../../../state/state';
     import Weapon from '../Weapon.vue';
 
     const props = defineProps<{ choise: Figures; name: string }>();
@@ -37,3 +37,4 @@
         margin: 10px;
     }
 </style>
+../../../state/api

@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import Game from './GamePage.vue';
 import RpsSelector from '../components/RpsSelector.vue';
 import Hands from '../components/Hands/Hands.vue';
-import { Figures, useApi } from '../../logic/api';
+import { Figures, useState } from '../../state/state';
 
 describe('Game screen (Game.vue)', () => {
     // describe('always', () => {
@@ -56,7 +56,7 @@ function setup({
     myWeapon = 'choosing',
     enemyWeapon = 'choosing',
 }: SetupProps = {}) {
-    const { startNewGame, setMyWeapon, setEnemyWeapon } = useApi();
+    const { startNewGame, setMyWeapon, setEnemyWeapon } = useState();
 
     startNewGame();
     setMyWeapon(myWeapon);

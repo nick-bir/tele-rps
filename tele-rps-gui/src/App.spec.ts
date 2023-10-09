@@ -5,7 +5,7 @@ import Instructions from './ui/pages/InstructionsPage.vue';
 import Game from './ui/pages/GamePage.vue';
 import GameResults from './ui/pages/ResultsPage.vue';
 
-import { useApi } from './logic/api';
+import { useState } from './state/state';
 
 describe('Main screen (App.vue)', () => {
     describe('when no opponent chosen', () => {
@@ -16,14 +16,14 @@ describe('Main screen (App.vue)', () => {
     });
 
     describe('when game is started', () => {
-        it.only('- show game page', () => {
+        it('- show game page', () => {
             const { isGameUiVisible } = setup({ isGameStarted: true });
             expect(isGameUiVisible()).toBe(true);
         });
     });
 
     describe('when game is finished', () => {
-        it.only('- show results page', () => {
+        it('- show results page', () => {
             const { isGameResultsVisible } = setup({ isGameFinished: true });
             expect(isGameResultsVisible()).toBe(true);
         });
@@ -31,7 +31,7 @@ describe('Main screen (App.vue)', () => {
 });
 
 function setup({ isGameStarted = false, isGameFinished = false }) {
-    const { setGameStatus, startNewGame } = useApi();
+    const { setGameStatus, startNewGame } = useState();
 
     if (isGameStarted) {
         startNewGame();

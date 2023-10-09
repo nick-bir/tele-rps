@@ -11,11 +11,11 @@
 </template>
 
 <script setup lang="ts">
-    import { useApi } from '../../logic/api';
+    import { useState } from '../../state/state';
     import Weapon from './Weapon.vue';
     import Subheader from './Subheader.vue';
 
-    const { setMyWeapon } = useApi();
+    const { setMyWeapon } = useState();
 </script>
 
 <style>
@@ -37,3 +37,4 @@
         cursor: pointer;
     }
 </style>
+../../state/api

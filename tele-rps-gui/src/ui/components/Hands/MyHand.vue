@@ -3,10 +3,11 @@
 </template>
 
 <script setup lang="ts">
-    import { Figures, useApi } from '../../../logic/api';
+    import { Figures, useState } from '../../../state/state';
     import Hand from './Hand.vue';
 
     defineProps<{ choise: Figures }>();
 
-    const { myWeapon } = useApi();
+    const { myWeapon } = useState();
 </script>
+../../../state/api

@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import Hands from './Hands.vue';
 import EnemyHand from './EnemyHand.vue';
-import { Figures, useApi } from '../../../logic/api';
+import { Figures, useState } from '../../../state/state';
 import MyHand from './MyHand.vue';
 
 describe('Players hands (Hands.vue)', () => {
@@ -23,7 +23,7 @@ describe('Players hands (Hands.vue)', () => {
             });
 
             describe('has made choise', () => {
-                it.only('- show chosen weapon', () => {
+                it('- show chosen weapon', () => {
                     const { getEnemyHandChoise } = setup({
                         enemyWeapon: 'paper',
                     });
@@ -42,7 +42,7 @@ function setup({
     myWeapon = 'choosing',
     enemyWeapon = 'choosing',
 }: SetupProps = {}) {
-    const { setMyWeapon, setEnemyWeapon, startNewGame } = useApi();
+    const { setMyWeapon, setEnemyWeapon, startNewGame } = useState();
 
     startNewGame();
     setMyWeapon(myWeapon);

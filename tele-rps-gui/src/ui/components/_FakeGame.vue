@@ -5,7 +5,9 @@
             <button @click="startNewGame">Start new game</button>
         </div>
         <div>
+            <br />
             choose for opponent:
+            <br />
             <button @click="setEnemyWeapon('rock')">Rock</button>
             <button @click="setEnemyWeapon('paper')">Paper</button>
             <button @click="setEnemyWeapon('scissors')">Scissors</button>
@@ -14,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-    import { useApi } from '../../logic/api';
+    import { useState } from '../../state/state';
 
-    const { startNewGame, setEnemyWeapon } = useApi();
+    const { startNewGame, setEnemyWeapon } = useState();
 </script>
 
 <style scoped>
@@ -26,3 +28,4 @@
         padding: 10px;
     }
 </style>
+../../state/api

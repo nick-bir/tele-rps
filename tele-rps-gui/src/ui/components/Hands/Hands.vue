@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
-    import { useApi } from '../../../logic/api';
+    import { useState } from '../../../state/state';
     import MyHand from './MyHand.vue';
     import EnemyHand from './EnemyHand.vue';
 
-    const { myWeapon, enemyWeapon } = useApi();
+    const { myWeapon, enemyWeapon } = useState();
 </script>
 
 <style>
@@ -24,3 +24,4 @@
         align-self: stretch;
     }
 </style>
+../../../state/api

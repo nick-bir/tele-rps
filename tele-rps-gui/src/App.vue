@@ -1,21 +1,22 @@
 <template>
     <div id="app">
+        <ErrorMessages />
         <InstructionsPage v-if="noGameCreated" />
         <GamePage v-if="isGameStarted" />
         <ResultsPage v-if="isGameFinished" />
-
         <FakeGame />
     </div>
 </template>
 
 <script setup lang="ts">
+    import ErrorMessages from './ui/components/ErrorMessages.vue';
     import FakeGame from './ui/components/_FakeGame.vue';
     import InstructionsPage from './ui/pages/InstructionsPage.vue';
     import GamePage from './ui/pages/GamePage.vue';
     import ResultsPage from './ui/pages/ResultsPage.vue';
-    import { useApi } from './logic/api';
+    import { useState } from './state/state';
 
-    const { noGameCreated, isGameStarted, isGameFinished } = useApi();
+    const { noGameCreated, isGameStarted, isGameFinished } = useState();
 </script>
 
 <style>
@@ -28,3 +29,4 @@
         color: #2c3e50;
     }
 </style>
+./state/api

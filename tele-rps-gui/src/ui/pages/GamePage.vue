@@ -11,9 +11,9 @@
     import Header from '../components/Header.vue';
     import RpsSelector from '../components/RpsSelector.vue';
     import Hands from '../components/Hands/Hands.vue';
-    import { useApi } from '../../logic/api';
+    import { useState } from '../../state/state';
 
-    const { setMyWeapon, isMyWeaponChoosen, enemyName } = useApi();
+    const { setMyWeapon, isMyWeaponChoosen, enemyName } = useState();
 </script>
 
 <style>
@@ -29,4 +29,3 @@
         margin-bottom: 1rem;
     }
 </style>
-../components/Hands/Hands.vue

@@ -7,8 +7,9 @@ const gameStatus = ref<GameStatus>('new');
 const enemyName = ref<string>('@ppo_nent');
 const myWeapon = ref<Figures>('choosing');
 const enemyWeapon = ref<Figures>('choosing');
+const errorMessages = ref<string[]>([]);
 
-function useApi() {
+function useState() {
     const noGameCreated = computed(() => gameStatus.value === 'new');
     const isGameStarted = computed(() => gameStatus.value === 'started');
     const isGameFinished = computed(() => gameStatus.value === 'finished');
@@ -25,8 +26,13 @@ function useApi() {
     const setMyWeapon = (figure: Figures) => {
         myWeapon.value = figure;
     };
+
     const setEnemyWeapon = (figure: Figures) => {
         enemyWeapon.value = figure;
+    };
+
+    const showError = (message: string) => {
+        errorMessages.value.push(message);
     };
 
     return {
@@ -44,8 +50,11 @@ function useApi() {
 
         setMyWeapon,
         setEnemyWeapon,
+
+        errorMessages,
+        showError,
     };
 }
 
-export { useApi };
+export { useState };
 export type { Figures };
