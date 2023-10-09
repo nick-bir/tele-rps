@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import Hands from './Hands.vue';
 import EnemyHand from './EnemyHand.vue';
-import { Figures, useState } from '../../../state/state';
+import { Figures, useState } from '../../state';
 import MyHand from './MyHand.vue';
 
 describe('Players hands (Hands.vue)', () => {

@@ -1,9 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
 import Game from './GamePage.vue';
-import RpsSelector from '../components/RpsSelector.vue';
-import Hands from '../components/Hands/Hands.vue';
-import { Figures, useState } from '../../state/state';
+import RpsSelector from '../../components/RpsSelector.vue';
+import Hands from '../../components/Hands/Hands.vue';
+import { Figures, useState } from '../../state';
 
 describe('Game screen (Game.vue)', () => {
     // describe('always', () => {

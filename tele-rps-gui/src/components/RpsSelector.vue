@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useState } from '../../state/state';
+    import { useState } from '../state';
     import Weapon from './Weapon.vue';
     import Subheader from './Subheader.vue';
 

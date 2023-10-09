@@ -8,10 +8,10 @@
 </template>
 
 <script setup lang="ts">
-    import Header from '../components/Header.vue';
-    import RpsSelector from '../components/RpsSelector.vue';
-    import Hands from '../components/Hands/Hands.vue';
-    import { useState } from '../../state/state';
+    import Header from '../Header.vue';
+    import RpsSelector from '../RpsSelector.vue';
+    import Hands from '../Hands/Hands.vue';
+    import { useState } from '../../state';
 
     const { setMyWeapon, isMyWeaponChoosen, enemyName } = useState();
 </script>
@@ -29,3 +29,4 @@
         margin-bottom: 1rem;
     }
 </style>
+../../components/Header.vue../../components/RpsSelector.vue../../components/Hands/Hands.vue

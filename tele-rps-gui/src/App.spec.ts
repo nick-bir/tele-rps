@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import { shallowMount } from '@vue/test-utils';
 import App from './App.vue';
-import Instructions from './ui/pages/InstructionsPage.vue';
-import Game from './ui/pages/GamePage.vue';
-import GameResults from './ui/pages/ResultsPage.vue';
+import Instructions from './components/pages/InstructionsPage.vue';
+import Game from './components/pages/GamePage.vue';
+import GameResults from './components/pages/ResultsPage.vue';
 
-import { useState } from './state/state';
+import { useState } from './state';
 
 describe('Main screen (App.vue)', () => {
     describe('when no opponent chosen', () => {

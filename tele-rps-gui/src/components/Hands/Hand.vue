@@ -9,7 +9,7 @@
 <script setup lang="ts">
     import Subheader from '../Subheader.vue';
     import { defineProps } from 'vue';
-    import { Figures } from '../../../state/state';
+    import { Figures } from '../../state';
     import Weapon from '../Weapon.vue';
 
     const props = defineProps<{ choise: Figures; name: string }>();

@@ -9,12 +9,12 @@
 </template>
 
 <script setup lang="ts">
-    import ErrorMessages from './ui/components/ErrorMessages.vue';
-    import FakeGame from './ui/components/_FakeGame.vue';
-    import InstructionsPage from './ui/pages/InstructionsPage.vue';
-    import GamePage from './ui/pages/GamePage.vue';
-    import ResultsPage from './ui/pages/ResultsPage.vue';
-    import { useState } from './state/state';
+    import ErrorMessages from './components/ErrorMessages.vue';
+    import FakeGame from './components/_FakeGame.vue';
+    import InstructionsPage from './components/pages/InstructionsPage.vue';
+    import GamePage from './components/pages/GamePage.vue';
+    import ResultsPage from './components/pages/ResultsPage.vue';
+    import { useState } from './state';
 
     const { noGameCreated, isGameStarted, isGameFinished } = useState();
 </script>
@@ -29,4 +29,3 @@
         color: #2c3e50;
     }
 </style>
-./state/api

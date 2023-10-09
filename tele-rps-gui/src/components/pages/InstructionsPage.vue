@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-    import Subheader from '../components/Subheader.vue';
+    import Subheader from '../Subheader.vue';
 </script>
 
 <style scoped>
@@ -18,3 +18,4 @@
         margin: 20px auto;
     }
 </style>
+../../components/Subheader.vue

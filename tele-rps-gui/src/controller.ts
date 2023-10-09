@@ -1,5 +1,5 @@
-import { authenticateApp } from './backend/backend';
-import { useState } from './state/state';
+import { authenticateApp } from './backend';
+import { useState } from './state';
 
 async function connect() {
     const state = useState();

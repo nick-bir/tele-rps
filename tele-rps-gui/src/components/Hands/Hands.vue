@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useState } from '../../../state/state';
+    import { useState } from '../../state';
     import MyHand from './MyHand.vue';
     import EnemyHand from './EnemyHand.vue';
 

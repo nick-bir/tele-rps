@@ -1,17 +1,15 @@
-import { getConfig } from '../config/config';
-import { getLogger } from '../utils';
+import { getConfig } from './config/config';
+import { getLogger } from './utils';
 const log = getLogger('backend');
 
-let pageAuthToken: string;
+let webAppAuthToken: string;
 
 async function authenticateApp() {
     const log = getLogger('backend.authenticateApp');
-    if (pageAuthToken) {
+    if (webAppAuthToken) {
         log('already authenticated');
         return;
     }
-
-    throw new Error('not implemented');
 
     log('getting token');
 
@@ -33,7 +31,7 @@ async function authenticateApp() {
 
         const token = await result.text();
 
-        pageAuthToken = token;
+        webAppAuthToken = token;
     } catch (e) {
         log.error(e);
         throw e;

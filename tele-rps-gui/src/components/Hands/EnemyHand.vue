@@ -1,13 +1,13 @@
 <template>
-    <Hand :choise="myWeapon" name="My hand" />
+    <Hand :choise="enemyWeapon" name="Opponent hand" />
 </template>
 
 <script setup lang="ts">
-    import { Figures, useState } from '../../../state/state';
+    import { Figures, useState } from '../../state';
     import Hand from './Hand.vue';
 
     defineProps<{ choise: Figures }>();
 
-    const { myWeapon } = useState();
+    const { enemyWeapon } = useState();
 </script>
 ../../../state/api

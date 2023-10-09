@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useState } from '../../state/state';
+    import { useState } from '../state';
 
     const { startNewGame, setEnemyWeapon } = useState();
 </script>
