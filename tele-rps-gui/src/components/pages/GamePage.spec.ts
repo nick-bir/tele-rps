@@ -1,22 +1,21 @@
 import { shallowMount } from '@vue/test-utils';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import Game from './GamePage.vue';
 import RpsSelector from '../../components/RpsSelector.vue';
 import Hands from '../../components/Hands/Hands.vue';
 import { Figures, useState } from '../../state';
 
+vi.mock('../../backend.ts', () => ({
+    makeMove: () => {},
+}));
+
 describe('Game screen (Game.vue)', () => {
-    // describe('always', () => {
-    //     it('- show score', async () => {
-    //         const { isScoreVisible } = setup();
-    //         expect(isScoreVisible()).toBe(true);
-    //     });
-    // });
     describe('when new round started', () => {
         it('- hide players hands', () => {
             const { areHandsVisible } = setup();
             expect(areHandsVisible()).toBe(false);
         });
+
         it('- show rock/paper/scissors selector', () => {
             const { isRpsSelectorVisible } = setup();
             expect(isRpsSelectorVisible()).toBe(true);

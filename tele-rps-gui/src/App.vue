@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <ErrorMessages />
-<!--        <InstructionsPage v-if="noGameCreated" />-->
+        <InstructionsPage v-if="noGameCreated" />
         <GamePage v-if="isGameStarted" />
         <ResultsPage v-if="isGameFinished" />
-<!--        <FakeGame />-->
+        <!--<FakeGame />-->
     </div>
 </template>
 

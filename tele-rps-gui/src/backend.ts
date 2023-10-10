@@ -1,7 +1,7 @@
 import { getConfig } from './config/config';
-import {getUserId, getWebAppInitData} from './telegram';
+import { getUserId, getWebAppInitData } from './telegram';
 import { getLogger } from './utils';
-import {Figures} from "./state.ts";
+import { Figures } from './state.ts';
 
 let webAppAuthToken: string;
 let ws: WebSocket;
@@ -47,7 +47,7 @@ function openWebSocket() {
     ws.addEventListener('open', () => {
         onConnectedHandler();
     });
-    return ws
+    return ws;
 }
 
 function onConnected(handler: () => void) {
@@ -61,29 +61,48 @@ function onMessage(handler: (data: any) => void) {
 function requestGameState() {
     ws.send(JSON.stringify({ type: 'HELLO', from: getUserId() }));
 }
+
+function makeMove(figure: Figures) {
+    ws.send(
+        JSON.stringify({
+            type: 'MOVE',
+            from: getUserId(),
+            gesture: mapFigureToGesture(figure),
+        })
+    );
+}
+
 export type Gesture = 'ROCK' | 'PAPER' | 'SCISSORS' | null;
 export type SocketMessage = {
-    gameStatus: 'PENDING',
-    yourGesture: Gesture
-    opponentGesture: Gesture
-    gameResult: 'VICTORY' | 'DEFEAT' | 'DRAW' | null
-}
+    gameStatus: 'PENDING';
+    yourGesture: Gesture;
+    opponentGesture: Gesture;
+    gameResult: 'VICTORY' | 'DEFEAT' | 'DRAW' | null;
+};
 
 function mapGestureToFigure(gesture: Gesture): Figures {
     switch (gesture) {
-        case 'ROCK': return 'rock';
-        case 'PAPER': return 'paper';
-        case 'SCISSORS': return 'scissors';
-        default: return 'choosing'
+        case 'ROCK':
+            return 'rock';
+        case 'PAPER':
+            return 'paper';
+        case 'SCISSORS':
+            return 'scissors';
+        default:
+            return 'choosing';
     }
 }
 
 function mapFigureToGesture(figure: Figures): Gesture | undefined {
     switch (figure) {
-        case 'rock': return 'ROCK';
-        case 'paper': return 'PAPER';
-        case 'scissors': return 'SCISSORS';
-        default: return undefined
+        case 'rock':
+            return 'ROCK';
+        case 'paper':
+            return 'PAPER';
+        case 'scissors':
+            return 'SCISSORS';
+        default:
+            return undefined;
     }
 }
 export {
@@ -92,6 +111,7 @@ export {
     onConnected,
     onMessage,
     requestGameState,
+    makeMove,
     mapGestureToFigure,
     mapFigureToGesture,
 };

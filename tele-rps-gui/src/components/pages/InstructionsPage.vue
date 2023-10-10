@@ -1,10 +1,19 @@
 <template>
     <div>
-        <Subheader>How to play</Subheader>
+        <Subheader>ABOUT THE GAME</Subheader>
+
+        Challenge anyone in the world to conclude an argument, toss a coin or
+        simply for fun. Remember, rock breaks scissors, paper wraps the rock and
+        scissors cut paper. Good luck!
+
+        <Subheader>HOW TO PLAY</Subheader>
+
         <ol class="instructions-list">
-            <li>Invite a <b>@rpsbattle_bot</b> to a chat</li>
-            <li>Write <b>/battle @person_you_want_to_play_with</b></li>
-            <li>Open <b>menu -> Open game</b></li>
+            <li>Send <b>/challenge</b> in chat</li>
+            <li>
+                Forward button <b>PLAY</b> to your opponent to challenge them>
+            </li>
+            <li>Open the app in the menu and battle!</li>
         </ol>
     </div>
 </template>

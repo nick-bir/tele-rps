@@ -1,9 +1,13 @@
 import { shallowMount } from '@vue/test-utils';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import Hands from './Hands.vue';
 import EnemyHand from './EnemyHand.vue';
 import { Figures, useState } from '../../state';
 import MyHand from './MyHand.vue';
+
+vi.mock('../../backend.ts', () => ({
+    makeMove: () => {},
+}));
 
 describe('Players hands (Hands.vue)', () => {
     describe('when I made choise', () => {
