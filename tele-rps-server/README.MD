@@ -61,3 +61,11 @@ polling_mode=true
 ```
 
 4. server sends current game updates in format same as above
+
+#### Error codes:
+In case of unexpected message from UI, server closes WS with code 4000 and one of these messages: 
+
+1. NO_GAME - there is no active or completed game for current TG user. UI must prompt user to /challenge someone via TG bot
+2. NO_TYPE - required field `type` of incoming message is missing. Should be 'HELLO' or 'MOVE'
+3. NO_SENDER - required field `from` is missing. Should be TG user id
+5. NO_GESTURE - if `type: "MOVE"` was sent, but no gesture was provided
