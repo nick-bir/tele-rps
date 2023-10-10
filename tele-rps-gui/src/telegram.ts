@@ -1,11 +1,11 @@
 const DEV_WEBAPP_TOKEN = 'test';
-const DEV_USER_ID = 123456
+const DEV_USER_ID = 123456;
 
 function getWebAppInitData() {
     // @ts-expect-error cannot find Telegram
     if (typeof Telegram !== 'undefined') {
         // @ts-expect-error cannot find Telegram
-        return Telegram.WebApp.initData
+        return Telegram.WebApp.initData || DEV_WEBAPP_TOKEN;
     }
     return DEV_WEBAPP_TOKEN;
 }

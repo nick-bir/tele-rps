@@ -17,6 +17,8 @@ function useState() {
     const isGameStarted = computed(() => gameStatus.value === 'started');
     const isGameFinished = computed(() => gameStatus.value === 'finished');
     const isMyWeaponChosen = computed(() => myWeapon.value !== 'choosing');
+    const iWon = computed(() => gameResult.value === 'VICTORY');
+    const iLost = computed(() => gameResult.value === 'DEFEAT');
 
     const startNewGame = () => {
         gameStatus.value = 'started';
@@ -53,7 +55,8 @@ function useState() {
         isGameStarted,
         isMyWeaponChosen,
         isGameFinished,
-        gameResult,
+        iWon,
+        iLost,
 
         setMyWeapon,
         setEnemyWeapon,
@@ -64,4 +67,4 @@ function useState() {
 }
 
 export { useState };
-export type { Figures };
+export type { Figures, GameResult };

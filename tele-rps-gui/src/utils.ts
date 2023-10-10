@@ -1,4 +1,5 @@
 import { useState } from './state';
+import { getWebAppInitData } from './telegram';
 
 function getLogger(prefix: string) {
     const log = (...args: any[]) => {
@@ -13,4 +14,8 @@ function getLogger(prefix: string) {
     return log;
 }
 
-export { getLogger };
+function isDevMode() {
+    return getWebAppInitData() === 'test';
+}
+
+export { getLogger, isDevMode };

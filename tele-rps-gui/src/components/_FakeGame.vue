@@ -12,13 +12,26 @@
             <button @click="setEnemyWeapon('paper')">Paper</button>
             <button @click="setEnemyWeapon('scissors')">Scissors</button>
         </div>
+        <div>
+            <br />
+            game result:
+            <br />
+            <button @click="finishGameWithResult('VICTORY')">Victory</button>
+            <button @click="finishGameWithResult('DEFEAT')">Defeat</button>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { useState } from '../state';
+    import { GameResult, useState } from '../state';
 
-    const { startNewGame, setEnemyWeapon } = useState();
+    const { startNewGame, setEnemyWeapon, setGameResult, setGameStatus } =
+        useState();
+
+    function finishGameWithResult(result: GameResult) {
+        setGameResult(result);
+        setGameStatus('finished');
+    }
 </script>
 
 <style scoped>
