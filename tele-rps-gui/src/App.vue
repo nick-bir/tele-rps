@@ -4,7 +4,7 @@
         <InstructionsPage v-if="noGameCreated" />
         <GamePage v-if="isGameStarted" />
         <ResultsPage v-if="isGameFinished" />
-        <!--<FakeGame />-->
+        <FakeGame v-if="isDevMode()" />
     </div>
 </template>
 
@@ -15,6 +15,7 @@
     import GamePage from './components/pages/GamePage.vue';
     import ResultsPage from './components/pages/ResultsPage.vue';
     import { useState } from './state';
+    import { isDevMode } from './utils';
 
     const { noGameCreated, isGameStarted, isGameFinished } = useState();
 </script>

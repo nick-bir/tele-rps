@@ -1,6 +1,7 @@
 import {
     authenticateApp,
     mapGestureToFigure,
+    onClosed,
     onConnected,
     onMessage,
     openWebSocket,
@@ -28,6 +29,10 @@ async function connect() {
             state.setGameResult(data.gameResult);
         }
         state.setEnemyWeapon(mapGestureToFigure(data.opponentGesture));
+    });
+
+    onClosed(() => {
+        state.setGameStatus('new');
     });
 }
 

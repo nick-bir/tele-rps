@@ -7,6 +7,7 @@ let webAppAuthToken: string;
 let ws: WebSocket;
 let onMessageHandler: (data: any) => void;
 let onConnectedHandler: () => void;
+let onClosedHandler: () => void;
 
 async function authenticateApp() {
     const log = getLogger('backend.authenticateApp');
@@ -43,11 +44,12 @@ function openWebSocket() {
         const data = JSON.parse(event.data);
         onMessageHandler(data);
     };
-
-    ws.addEventListener('open', () => {
+    ws.onopen = () => {
         onConnectedHandler();
-    });
-    return ws;
+    };
+    ws.onclose = () => {
+        onClosedHandler();
+    };
 }
 
 function onConnected(handler: () => void) {
@@ -56,6 +58,10 @@ function onConnected(handler: () => void) {
 
 function onMessage(handler: (data: any) => void) {
     onMessageHandler = handler;
+}
+
+function onClosed(handler: () => void) {
+    onClosedHandler = handler;
 }
 
 function requestGameState() {
@@ -110,6 +116,7 @@ export {
     openWebSocket,
     onConnected,
     onMessage,
+    onClosed,
     requestGameState,
     makeMove,
     mapGestureToFigure,

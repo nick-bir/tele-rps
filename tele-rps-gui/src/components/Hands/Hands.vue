@@ -23,5 +23,8 @@
     .hand {
         align-self: stretch;
     }
+
+    .hand:not(:last-child) {
+        margin-right: 2rem;
+    }
 </style>
-../../../state/api
