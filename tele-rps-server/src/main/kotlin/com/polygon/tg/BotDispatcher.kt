@@ -8,7 +8,6 @@ import com.github.kotlintelegrambot.dispatcher.handlers.Handler
 import com.github.kotlintelegrambot.dispatcher.text
 import com.github.kotlintelegrambot.entities.ChatId
 import com.github.kotlintelegrambot.entities.InlineKeyboardMarkup
-import com.github.kotlintelegrambot.entities.ParseMode
 import com.github.kotlintelegrambot.entities.Update
 import com.github.kotlintelegrambot.entities.keyboard.InlineKeyboardButton
 import com.polygon.ChallengeResult
@@ -64,6 +63,12 @@ val tgDispatcher: Dispatcher.() -> Unit = {
     }
 }
 
+/**
+ * This handler executes when user clicks play?gameId button.
+ * It processes game status and sends according messages
+ * @param text - locale of current TG user
+ * @param result - results of the check of the game and ref to a game
+ */
 private fun CommandHandlerEnvironment.processChallengeResult(text: TextResolver, result: Pair<ChallengeResult, Game?>) {
     when (result.first) {
         ChallengeResult.SAME_PLAYER -> bot.sendMessage(
@@ -97,6 +102,11 @@ private fun CommandHandlerEnvironment.processChallengeResult(text: TextResolver,
 }
 
 typealias HandleCommandWithCtx = suspend CommandHandlerEnvironment.(userId: Long, text: TextResolver) -> Unit
+
+/**
+ * This wrapper validates TG user id and passes it to underlying block along with user locale
+ * @param block function to execute with user context
+ */
 suspend fun CommandHandlerEnvironment.withValidUserId(block: HandleCommandWithCtx) {
     update.consume()
     if (message.from?.id == null) {

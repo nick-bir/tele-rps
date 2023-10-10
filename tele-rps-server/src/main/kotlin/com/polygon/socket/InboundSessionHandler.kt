@@ -11,6 +11,10 @@ import kotlinx.coroutines.sync.withLock
 import org.joda.time.DateTime
 import kotlin.time.Duration.Companion.hours
 
+/**
+ * This object stores one-time tokens for WS connections
+ * UI sends request to open socket with ?$token parameter
+ */
 object InboundSessionHandler {
     private data class InboundConnection(val token: String, val expires: DateTime) {
         constructor(token: String) : this(
