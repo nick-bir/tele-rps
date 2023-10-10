@@ -56,7 +56,7 @@ suspend fun SocketSession.stateMachine(objectMapper: ObjectMapper, incomingMessa
         return closeWithMessage("NO_SENDER")
     }
     if (incomingMessage.type == IncomingMessageType.HELLO) {
-        val game = GamesRepository.getLastByPlayerId(incomingMessage.from).await() ?: return closeWithMessage("no game")
+        val game = GamesRepository.getLastByPlayerId(incomingMessage.from).await() ?: return closeWithMessage("NO_GAME")
         SocketSession.setGameInfo(this, incomingMessage.from, game.gameId)
         sendGameUpdate(objectMapper, game)
         return

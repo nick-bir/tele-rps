@@ -14,7 +14,7 @@ function getUserId() {
     // @ts-expect-error cannot find Telegram
     if (typeof Telegram !== 'undefined') {
         // @ts-expect-error cannot find Telegram
-        return Telegram.initDataUnsafe?.user?.id || DEV_USER_ID;
+        return Telegram.WebApp.initDataUnsafe?.user?.id || DEV_USER_ID;
     }
     return DEV_USER_ID;
 }
