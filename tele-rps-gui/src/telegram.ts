@@ -7,17 +7,16 @@ function getWebAppInitData() {
         // @ts-expect-error cannot find Telegram
         return Telegram.WebApp.initData
     }
-    return 'test';
+    return DEV_WEBAPP_TOKEN;
 }
 
 function getUserId() {
     // @ts-expect-error cannot find Telegram
     if (typeof Telegram !== 'undefined') {
         // @ts-expect-error cannot find Telegram
-        return Telegram.WebAppUser?.id || DEV_USER_ID;
+        return Telegram.initDataUnsafe?.user?.id || DEV_USER_ID;
     }
-
-    return DEV_WEBAPP_TOKEN;
+    return DEV_USER_ID;
 }
 
 export { getWebAppInitData, getUserId };

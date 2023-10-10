@@ -13,8 +13,6 @@ import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
     routing {
-        staticResources("/", "assets")
-
         options("*") {
             call.response.headers.append("Access-Control-Allow-Origin", "*")
             call.response.headers.append("Access-Control-Allow-Headers", "*")
