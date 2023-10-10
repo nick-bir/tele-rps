@@ -23,9 +23,8 @@ fun validateTgInitData(initData: String): Boolean {
     if (ConfigLoader.config.tgHash != null) {
         return initData == ConfigLoader.config.tgHash
     }
-    val decoded = URLDecoder.decode(initData, "utf-8")
-    val arr = decoded.split('&')
-    val hashAndData = arr.partition { it.startsWith("hash=") }
+    val decoded = initData.split('&').map { URLDecoder.decode(it, "utf-8") }
+    val hashAndData = decoded.partition { it.startsWith("hash=") }
     val messageHash = hashAndData.first.firstOrNull()?.split("=")?.lastOrNull() ?: return false
     val data = hashAndData.second.sorted().joinToString("\n")
 
