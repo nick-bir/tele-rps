@@ -14,6 +14,7 @@ async function connect() {
     const state = useState();
 
     await authenticateApp();
+    await openWebSocket();
 
     onConnected(() => {
         console.log('---onConnected');
@@ -32,6 +33,7 @@ async function connect() {
     });
 
     onClosed(() => {
+        console.log('---onClosed');
         state.setGameStatus('new');
     });
 }
