@@ -29,6 +29,7 @@ async function connect() {
             state.setGameStatus('finished');
             state.setGameResult(data.gameResult);
         }
+        state.setMyWeapon(mapGestureToFigure(data.yourGesture));
         state.setEnemyWeapon(mapGestureToFigure(data.opponentGesture));
     });
 
