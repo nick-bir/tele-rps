@@ -1,6 +1,5 @@
 import {
     authenticateApp,
-    mapGestureToFigure,
     onClosed,
     onConnected,
     onMessage,
@@ -8,7 +7,7 @@ import {
     requestGameState,
     SocketMessage,
 } from './backend';
-import { Figures, useState } from './state';
+import { useState } from './state';
 
 async function connect() {
     const state = useState();
@@ -24,18 +23,18 @@ async function connect() {
     onMessage((data: SocketMessage) => {
         console.log('---onMessage', data);
         if (!data.gameResult) {
-            state.setGameStatus('started');
+            state.setGameStatus('STARTED');
         } else {
-            state.setGameStatus('finished');
+            state.setGameStatus('FINISHED');
             state.setGameResult(data.gameResult);
         }
-        state.setMyWeapon(mapGestureToFigure(data.yourGesture));
-        state.setEnemyWeapon(mapGestureToFigure(data.opponentGesture));
+        state.setMyWeapon(data.yourGesture);
+        state.setEnemyWeapon(data.opponentGesture);
     });
 
     onClosed(() => {
         console.log('---onClosed');
-        state.setGameStatus('new');
+        state.setGameStatus('PENDING');
     });
 }
 

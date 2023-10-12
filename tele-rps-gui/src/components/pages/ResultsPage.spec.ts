@@ -27,7 +27,7 @@ describe('Results page', () => {
 
 function setup({ iWon = false, iLost = false } = {}) {
     const { setGameResult, setGameStatus } = useState();
-    setGameStatus('finished');
+    setGameStatus('FINISHED');
 
     if (iWon) {
         setGameResult('VICTORY');

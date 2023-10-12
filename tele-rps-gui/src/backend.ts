@@ -1,7 +1,7 @@
 import { getConfig } from './config/config';
 import { getUserId, getWebAppInitData } from './telegram';
 import { getLogger } from './utils';
-import { Figures } from './state.ts';
+import { Gesture, GameStatus, GameResult } from './state.ts';
 
 let webAppAuthToken: string;
 let ws: WebSocket;
@@ -68,49 +68,24 @@ function requestGameState() {
     ws.send(JSON.stringify({ type: 'HELLO', from: getUserId() }));
 }
 
-function makeMove(figure: Figures) {
+function makeMove(figure: Gesture) {
     ws.send(
         JSON.stringify({
             type: 'MOVE',
             from: getUserId(),
-            gesture: mapFigureToGesture(figure),
+            // gesture: mapFigureToGesture(figure),
+            gesture: figure,
         })
     );
 }
 
-export type Gesture = 'ROCK' | 'PAPER' | 'SCISSORS' | null;
 export type SocketMessage = {
-    gameStatus: 'PENDING';
+    gameStatus: GameStatus;
     yourGesture: Gesture;
     opponentGesture: Gesture;
-    gameResult: 'VICTORY' | 'DEFEAT' | 'DRAW' | null;
+    gameResult: GameResult;
 };
 
-function mapGestureToFigure(gesture: Gesture): Figures {
-    switch (gesture) {
-        case 'ROCK':
-            return 'rock';
-        case 'PAPER':
-            return 'paper';
-        case 'SCISSORS':
-            return 'scissors';
-        default:
-            return 'choosing';
-    }
-}
-
-function mapFigureToGesture(figure: Figures): Gesture | undefined {
-    switch (figure) {
-        case 'rock':
-            return 'ROCK';
-        case 'paper':
-            return 'PAPER';
-        case 'scissors':
-            return 'SCISSORS';
-        default:
-            return undefined;
-    }
-}
 export {
     authenticateApp,
     openWebSocket,
@@ -119,6 +94,4 @@ export {
     onClosed,
     requestGameState,
     makeMove,
-    mapGestureToFigure,
-    mapFigureToGesture,
 };

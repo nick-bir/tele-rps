@@ -2,10 +2,11 @@
     <div class="rps-selector">
         <Subheader>Choose your weapon</Subheader>
         <div class="rps-selector__weapons"></div>
-        <button @click="setMyWeapon('rock')"><Weapon type="rock" /></button>
-        <button @click="setMyWeapon('paper')"><Weapon type="paper" /></button>
-        <button @click="setMyWeapon('scissors')">
-            <Weapon type="scissors" />
+        // TODO: maybe remove button
+        <button @click="setMyWeapon('ROCK')"><Weapon type="ROCK" /></button>
+        <button @click="setMyWeapon('PAPER')"><Weapon type="PAPER" /></button>
+        <button @click="setMyWeapon('SCISSORS')">
+            <Weapon type="SCISSORS" />
         </button>
     </div>
 </template>

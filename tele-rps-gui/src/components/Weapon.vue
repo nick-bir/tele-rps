@@ -11,21 +11,22 @@
 
 <script setup lang="ts">
     import { computed, defineProps } from 'vue';
+    import { Gesture } from '../state';
 
     const props = defineProps<{
         size?: 'sm' | 'md' | 'lg';
-        type: 'rock' | 'paper' | 'scissors' | 'choosing';
+        type: Gesture;
     }>();
 
     const icon = computed(() => {
         switch (props.type) {
-            case 'choosing':
+            case 'PENDING':
                 return '🤔';
-            case 'rock':
+            case 'ROCK':
                 return '🪨';
-            case 'paper':
+            case 'PAPER':
                 return '📃';
-            case 'scissors':
+            case 'SCISSORS':
                 return '✂️';
             default:
                 return '' as never;

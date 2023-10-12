@@ -3,7 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import Game from './GamePage.vue';
 import RpsSelector from '../../components/RpsSelector.vue';
 import Hands from '../../components/Hands/Hands.vue';
-import { Figures, useState } from '../../state';
+import { Gesture, useState } from '../../state';
 
 vi.mock('../../backend.ts', () => ({
     makeMove: () => {},
@@ -24,7 +24,7 @@ describe('Game screen (Game.vue)', () => {
         describe('when I made choise', () => {
             it('- hide rock/paper/scissors selector', () => {
                 const { isRpsSelectorVisible } = setup({
-                    myWeapon: 'rock',
+                    myWeapon: 'ROCK',
                 });
                 expect(isRpsSelectorVisible()).toBe(false);
             });
@@ -38,8 +38,8 @@ describe('Game screen (Game.vue)', () => {
     describe('when round finished', () => {
         it('- show players hands', () => {
             const { areHandsVisible } = setup({
-                myWeapon: 'rock',
-                enemyWeapon: 'paper',
+                myWeapon: 'ROCK',
+                enemyWeapon: 'PAPER',
             });
             expect(areHandsVisible()).toBe(true);
         });
@@ -47,13 +47,13 @@ describe('Game screen (Game.vue)', () => {
 });
 
 type SetupProps = {
-    myWeapon?: Figures;
-    enemyWeapon?: Figures;
+    myWeapon?: Gesture;
+    enemyWeapon?: Gesture;
 };
 
 function setup({
-    myWeapon = 'choosing',
-    enemyWeapon = 'choosing',
+    myWeapon = 'PENDING',
+    enemyWeapon = 'PENDING',
 }: SetupProps = {}) {
     const { startNewGame, setMyWeapon, setEnemyWeapon } = useState();
 

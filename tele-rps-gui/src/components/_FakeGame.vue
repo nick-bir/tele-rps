@@ -8,9 +8,9 @@
             <br />
             choose for opponent:
             <br />
-            <button @click="setEnemyWeapon('rock')">Rock</button>
-            <button @click="setEnemyWeapon('paper')">Paper</button>
-            <button @click="setEnemyWeapon('scissors')">Scissors</button>
+            <button @click="setEnemyWeapon('ROCK')">Rock</button>
+            <button @click="setEnemyWeapon('PAPER')">Paper</button>
+            <button @click="setEnemyWeapon('SCISSORS')">Scissors</button>
         </div>
         <div>
             <br />
@@ -30,7 +30,7 @@
 
     function finishGameWithResult(result: GameResult) {
         setGameResult(result);
-        setGameStatus('finished');
+        setGameStatus('FINISHED');
     }
 </script>
 

@@ -1,40 +1,40 @@
 import { computed, ref } from 'vue';
 import { makeMove } from './backend.ts';
 
-type GameStatus = 'new' | 'started' | 'finished';
-type GameResult = 'DRAW' | 'VICTORY' | 'DEFEAT';
-type Figures = 'rock' | 'paper' | 'scissors' | 'choosing';
+type GameStatus = 'PENDING' | 'STARTED' | 'FINISHED';
+type Gesture = 'PENDING' | 'ROCK' | 'PAPER' | 'SCISSORS';
+type GameResult = 'PENDING' | 'VICTORY' | 'DEFEAT' | 'DRAW';
 
-const gameStatus = ref<GameStatus>('new');
+const gameStatus = ref<GameStatus>('PENDING');
 const gameResult = ref<GameResult>();
 const enemyName = ref<string>('@ppo_nent');
-const myWeapon = ref<Figures>('choosing');
-const enemyWeapon = ref<Figures>('choosing');
+const myWeapon = ref<Gesture>('PENDING');
+const enemyWeapon = ref<Gesture>('PENDING');
 const errorMessages = ref<string[]>([]);
 
 function useState() {
-    const noGameCreated = computed(() => gameStatus.value === 'new');
-    const isGameStarted = computed(() => gameStatus.value === 'started');
-    const isGameFinished = computed(() => gameStatus.value === 'finished');
-    const isMyWeaponChosen = computed(() => myWeapon.value !== 'choosing');
+    const noGameCreated = computed(() => gameStatus.value === 'PENDING');
+    const isGameStarted = computed(() => gameStatus.value === 'STARTED');
+    const isGameFinished = computed(() => gameStatus.value === 'FINISHED');
+    const isMyWeaponChosen = computed(() => myWeapon.value !== 'PENDING');
     const iWon = computed(() => gameResult.value === 'VICTORY');
     const iLost = computed(() => gameResult.value === 'DEFEAT');
 
     const startNewGame = () => {
-        gameStatus.value = 'started';
-        myWeapon.value = 'choosing';
-        enemyWeapon.value = 'choosing';
+        gameStatus.value = 'STARTED';
+        myWeapon.value = 'PENDING';
+        enemyWeapon.value = 'PENDING';
     };
 
     const setGameStatus = (status: GameStatus) => (gameStatus.value = status);
     const setGameResult = (result: GameResult) => (gameResult.value = result);
 
-    const setMyWeapon = (figure: Figures) => {
+    const setMyWeapon = (figure: Gesture) => {
         myWeapon.value = figure;
         makeMove(figure);
     };
 
-    const setEnemyWeapon = (figure: Figures) => {
+    const setEnemyWeapon = (figure: Gesture) => {
         enemyWeapon.value = figure;
     };
 
@@ -67,4 +67,4 @@ function useState() {
 }
 
 export { useState };
-export type { Figures, GameResult };
+export type { Gesture, GameStatus, GameResult };

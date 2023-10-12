@@ -3,10 +3,10 @@
 </template>
 
 <script setup lang="ts">
-    import { Figures, useState } from '../../state';
+    import { Gesture, useState } from '../../state';
     import Hand from './Hand.vue';
 
-    defineProps<{ choise: Figures }>();
+    defineProps<{ choise: Gesture }>();
 
     const { myWeapon } = useState();
 </script>
