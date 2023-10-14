@@ -40,8 +40,8 @@ object RuText: TextResolver() {
     override val gameNotFound: String
         get() = "Хмм.. Что-то пошло не так. Попробуй бросить вызов снова."
 
-    override val gameInProgress: String
-        get() = "Вызов уже принят. Открой приложение в меню, выбери действие и ожидай ход противника."
+    override val gameWithAnotherOpponent: String
+        get() = "Похоже тебя не дождались и поиграли без тебя :("
     override val gameCompleted: String
         get() = start
 }

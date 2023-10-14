@@ -36,8 +36,8 @@ object EngText : TextResolver() {
     override val gameNotFound: String
         get() = "Hmm... Something is wrong. Try to challenge your friend again"
 
-    override val gameInProgress: String
-        get() = "This game is already in progress. Open the app and play!"
+    override val gameWithAnotherOpponent: String
+        get() = "Your opponent is already playing with someone else. You can /challenge them again!"
     override val gameCompleted: String
         get() = start
 }

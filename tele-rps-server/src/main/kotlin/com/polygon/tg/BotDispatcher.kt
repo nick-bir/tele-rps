@@ -79,9 +79,9 @@ private fun CommandHandlerEnvironment.processChallengeResult(text: TextResolver,
             ChatId.fromId(message.chat.id),
             text = text.samePlayer
         )
-        ChallengeResult.GAME_IN_PROGRESS -> bot.sendMessage(
+        ChallengeResult.ANOTHER_OPPONENT -> bot.sendMessage(
             ChatId.fromId(message.chat.id),
-            text = text.gameInProgress
+            text = text.gameWithAnotherOpponent
         )
         ChallengeResult.GAME_COMPLETED -> bot.sendMessage(
             ChatId.fromId(message.chat.id),

@@ -2,12 +2,11 @@ package com.polygon
 
 import com.polygon.mongo.*
 import kotlinx.coroutines.Deferred
-import java.util.*
 
 enum class ChallengeResult {
     NOT_FOUND,
     SAME_PLAYER,
-    GAME_IN_PROGRESS,
+    ANOTHER_OPPONENT,
     GAME_COMPLETED,
     OK
 }
@@ -18,15 +17,15 @@ object GameController {
     }
 
     suspend fun processChallenge(userId: Long, gameId: String): Pair<ChallengeResult, Game?> {
-        val game = GamesRepository.get(gameId).await()
+        var game = GamesRepository.get(gameId).await()
         val res = when {
             game == null -> ChallengeResult.NOT_FOUND
             game.playerId == userId -> ChallengeResult.SAME_PLAYER
-            game.status == GameStatus.IN_PROGRESS -> ChallengeResult.GAME_IN_PROGRESS
+            game.opponentId != null -> ChallengeResult.ANOTHER_OPPONENT
             game.status == GameStatus.COMPLETED -> ChallengeResult.GAME_COMPLETED
             else -> {
-                val newGame = game.copy(status = GameStatus.IN_PROGRESS, opponentId = userId)
-                GamesRepository.update(newGame).await()
+                game = game.copy(status = GameStatus.IN_PROGRESS, opponentId = userId)
+                GamesRepository.update(game).await()
                 ChallengeResult.OK
             }
         }

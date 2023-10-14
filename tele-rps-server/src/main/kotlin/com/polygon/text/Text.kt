@@ -7,7 +7,7 @@ sealed class TextResolver {
     abstract val challengeAccepted: String
     abstract val samePlayer: String
     abstract val gameNotFound: String
-    abstract val gameInProgress: String
+    abstract val gameWithAnotherOpponent: String
     abstract val gameCompleted: String
     abstract val unknown: String
     abstract val noUser: String
