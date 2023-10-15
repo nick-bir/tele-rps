@@ -37,7 +37,7 @@ function setup({ isGameStarted = false, isGameFinished = false }) {
         startNewGame();
     }
     if (isGameFinished) {
-        setGameStatus('FINISHED');
+        setGameStatus('COMPLETED');
     }
 
     const wrapper = shallowMount(App);

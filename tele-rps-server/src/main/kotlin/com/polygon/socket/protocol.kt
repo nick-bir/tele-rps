@@ -9,4 +9,9 @@ enum class IncomingMessageType {
     MOVE
 }
 data class InMessage(val type: IncomingMessageType?, val from: Long?, val gesture: Gesture?)
-data class OutMessage(val gameStatus: GameStatus, val yourGesture: Gesture?, val opponentGesture: Gesture?, val gameResult: GameResult?)
+
+data class OutMessage(
+    val gameStatus: GameStatus,
+    val yourGesture: Gesture,
+    val opponentGesture: Gesture,
+    val gameResult: GameResult)

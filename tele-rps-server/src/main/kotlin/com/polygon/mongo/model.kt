@@ -6,12 +6,14 @@ import java.util.Date
 import java.util.UUID
 
 enum class GameResult {
+    PENDING,
     VICTORY,
     DEFEAT,
     DRAW;
 }
 
 enum class Gesture {
+    PENDING,
     ROCK,
     PAPER,
     SCISSORS;

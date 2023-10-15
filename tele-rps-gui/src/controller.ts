@@ -22,14 +22,12 @@ async function connect() {
 
     onMessage((data: SocketMessage) => {
         console.log('---onMessage', data);
-        if (!data.gameResult) {
-            state.setGameStatus('STARTED');
-        } else {
-            state.setGameStatus('FINISHED');
-            state.setGameResult(data.gameResult);
-        }
-        state.setMyWeapon(data.yourGesture);
-        state.setEnemyWeapon(data.opponentGesture);
+        state.loadGameState({
+            status: data.gameStatus,
+            myGesture: data.yourGesture,
+            enemyGesture: data.opponentGesture,
+            result: data.gameResult,
+        })
     });
 
     onClosed(() => {

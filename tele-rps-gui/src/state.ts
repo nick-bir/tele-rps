@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { makeMove } from './backend.ts';
 
-type GameStatus = 'PENDING' | 'STARTED' | 'FINISHED';
+type GameStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
 type Gesture = 'PENDING' | 'ROCK' | 'PAPER' | 'SCISSORS';
 type GameResult = 'PENDING' | 'VICTORY' | 'DEFEAT' | 'DRAW';
 
@@ -14,16 +14,23 @@ const errorMessages = ref<string[]>([]);
 
 function useState() {
     const noGameCreated = computed(() => gameStatus.value === 'PENDING');
-    const isGameStarted = computed(() => gameStatus.value === 'STARTED');
-    const isGameFinished = computed(() => gameStatus.value === 'FINISHED');
+    const isGameStarted = computed(() => gameStatus.value === 'IN_PROGRESS');
+    const isGameFinished = computed(() => gameStatus.value === 'COMPLETED');
     const isMyWeaponChosen = computed(() => myWeapon.value !== 'PENDING');
     const iWon = computed(() => gameResult.value === 'VICTORY');
     const iLost = computed(() => gameResult.value === 'DEFEAT');
 
     const startNewGame = () => {
-        gameStatus.value = 'STARTED';
+        gameStatus.value = 'IN_PROGRESS';
         myWeapon.value = 'PENDING';
         enemyWeapon.value = 'PENDING';
+    };
+
+    const loadGameState = (props: {status: GameStatus, result: GameResult, myGesture: Gesture, enemyGesture: Gesture}) => {
+        gameStatus.value = props.status;
+        gameResult.value = props.result;
+        myWeapon.value = props.myGesture;
+        enemyWeapon.value = props.enemyGesture;
     };
 
     const setGameStatus = (status: GameStatus) => (gameStatus.value = status);
@@ -44,6 +51,7 @@ function useState() {
 
     return {
         startNewGame,
+        loadGameState,
         setGameStatus,
         setGameResult,
 

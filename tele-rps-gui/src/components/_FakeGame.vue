@@ -30,7 +30,7 @@
 
     function finishGameWithResult(result: GameResult) {
         setGameResult(result);
-        setGameStatus('FINISHED');
+        setGameStatus('COMPLETED');
     }
 </script>
 

@@ -7,6 +7,7 @@ import com.polygon.GameController
 import com.polygon.mongo.Game
 import com.polygon.mongo.GameResult
 import com.polygon.mongo.GamesRepository
+import com.polygon.mongo.Gesture
 import com.polygon.socket.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -64,6 +65,9 @@ suspend fun SocketSession.stateMachine(objectMapper: ObjectMapper, incomingMessa
     if (incomingMessage.type == IncomingMessageType.MOVE) {
         val gameId = this.gameId ?: return closeWithMessage("NO_GAME")
         val gesture = incomingMessage.gesture ?: return closeWithMessage("NO_GESTURE")
+        if (gesture == Gesture.PENDING) {
+            return closeWithMessage("PENDING_GESTURE")
+        }
         val game = GameController.makeMove(incomingMessage.from, gameId, gesture)
         if (game != null) {
             val sessions = SocketSession.sessionsByGameId(game.gameId)
@@ -88,7 +92,7 @@ suspend fun SocketSession.sendGameUpdate(objectMapper: ObjectMapper, game: Game)
         thisIsOpponent && game.result == GameResult.DEFEAT -> GameResult.VICTORY
         else -> game.result
     }
-    val message = OutMessage(game.status, playerGesture, opponentGesture, result)
+    val message = OutMessage(game.status, playerGesture ?: Gesture.PENDING, opponentGesture ?: Gesture.PENDING, result ?: GameResult.PENDING)
     val strMessage = objectMapper.writeValueAsString(message)
     session.send(strMessage)
 }

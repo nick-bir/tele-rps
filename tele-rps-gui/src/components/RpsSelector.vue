@@ -2,7 +2,7 @@
     <div class="rps-selector">
         <Subheader>Choose your weapon</Subheader>
         <div class="rps-selector__weapons"></div>
-        // TODO: maybe remove button
+        <!-- TODO: maybe remove button-->
         <button @click="setMyWeapon('ROCK')"><Weapon type="ROCK" /></button>
         <button @click="setMyWeapon('PAPER')"><Weapon type="PAPER" /></button>
         <button @click="setMyWeapon('SCISSORS')">
