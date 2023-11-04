@@ -5,7 +5,7 @@
         <div class="result">
             <div v-if="iWon" class="result__win">🎉 You win! 🎉</div>
             <div v-if="iLost" class="result__lose">You lose :(</div>
-            <div v-if="draw" class="result__draw">It's a draw 🤝</div>
+            <div v-if="isDraw" class="result__draw">It's a draw 🤝</div>
         </div>
 
         <br />
@@ -17,8 +17,7 @@
     import Header from '../Header.vue';
     import { useState } from '../../state.ts';
 
-    const { iWon, iLost } = useState();
-    const draw = !iWon && !iLost;
+    const { iWon, iLost, isDraw } = useState();
 </script>
 
 <style>
@@ -26,6 +25,7 @@
         font-size: 1.5rem;
         font-weight: bold;
         margin: 1rem;
+        text-align: center;
     }
 
     .result__win {
@@ -33,10 +33,14 @@
     }
 
     .result__draw {
-        color: yellow;
+        color: gray;
     }
 
     .result__lose {
         color: orange;
+    }
+
+    .theme_dark .result__draw {
+        color: silver;
     }
 </style>

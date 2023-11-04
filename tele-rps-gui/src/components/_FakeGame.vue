@@ -18,6 +18,7 @@
             <br />
             <button @click="finishGameWithResult('VICTORY')">Victory</button>
             <button @click="finishGameWithResult('DEFEAT')">Defeat</button>
+            <button @click="finishGameWithResult('DRAW')">Draw</button>
         </div>
     </div>
 </template>

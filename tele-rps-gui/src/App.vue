@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div :class="`app theme_${theme}`">
         <ErrorMessages />
         <InstructionsPage v-if="noGameCreated" />
         <GamePage v-if="isGameStarted" />
@@ -16,17 +16,25 @@
     import ResultsPage from './components/pages/ResultsPage.vue';
     import { useState } from './state';
     import { isDevMode } from './utils';
+    import { isDarkMode } from './telegram';
 
     const { noGameCreated, isGameStarted, isGameFinished } = useState();
+    const theme = isDarkMode() ? 'dark' : 'light';
 </script>
 
 <style>
-    #app {
-        margin: 20px auto;
+    .app {
         width: fit-content;
+        margin: 20px auto;
+        padding: 10px;
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #2c3e50;
+    }
+
+    .theme_dark {
+        background-color: #2c3e50;
+        color: white;
     }
 </style>

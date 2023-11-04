@@ -19,6 +19,7 @@ function useState() {
     const isMyWeaponChosen = computed(() => myWeapon.value !== 'PENDING');
     const iWon = computed(() => gameResult.value === 'VICTORY');
     const iLost = computed(() => gameResult.value === 'DEFEAT');
+    const isDraw = computed(() => gameResult.value === 'DRAW');
 
     const startNewGame = () => {
         gameStatus.value = 'IN_PROGRESS';
@@ -26,7 +27,12 @@ function useState() {
         enemyWeapon.value = 'PENDING';
     };
 
-    const loadGameState = (props: {status: GameStatus, result: GameResult, myGesture: Gesture, enemyGesture: Gesture}) => {
+    const loadGameState = (props: {
+        status: GameStatus;
+        result: GameResult;
+        myGesture: Gesture;
+        enemyGesture: Gesture;
+    }) => {
         gameStatus.value = props.status;
         gameResult.value = props.result;
         myWeapon.value = props.myGesture;
@@ -65,6 +71,7 @@ function useState() {
         isGameFinished,
         iWon,
         iLost,
+        isDraw,
 
         setMyWeapon,
         setEnemyWeapon,

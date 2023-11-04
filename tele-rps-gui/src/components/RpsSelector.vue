@@ -1,13 +1,23 @@
 <template>
     <div class="rps-selector">
         <Subheader>Choose your weapon</Subheader>
-        <div class="rps-selector__weapons"></div>
-        <!-- TODO: maybe remove button-->
-        <button @click="setMyWeapon('ROCK')"><Weapon type="ROCK" /></button>
-        <button @click="setMyWeapon('PAPER')"><Weapon type="PAPER" /></button>
-        <button @click="setMyWeapon('SCISSORS')">
-            <Weapon type="SCISSORS" />
-        </button>
+        <div class="rps-selector__weapons">
+            <Weapon
+                type="ROCK"
+                class="rps-selector__weapon"
+                @click="setMyWeapon('ROCK')"
+            />
+            <Weapon
+                type="PAPER"
+                class="rps-selector__weapon"
+                @click="setMyWeapon('PAPER')"
+            />
+            <Weapon
+                type="SCISSORS"
+                class="rps-selector__weapon"
+                @click="setMyWeapon('SCISSORS')"
+            />
+        </div>
     </div>
 </template>
 
@@ -29,13 +39,8 @@
         width: 100%;
     }
 
-    .rps-selector button {
+    .rps-selector__weapon {
         margin: 0 0.5rem;
-        padding: 1rem;
-        border-radius: 10px;
-        border: none;
-        background-color: white;
-        cursor: pointer;
     }
 </style>
 ../../state/api
